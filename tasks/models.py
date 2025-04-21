@@ -80,3 +80,10 @@ class Task(models.Model):
         Returns True if the task is overdue and not yet marked as 'done'.
         """
         return self.due_date < timezone.now() and self.state != self.State.DONE
+
+    def set_overdue_state(self):
+        """
+        Sets the task's state to 'overdue' if it is past its due date.
+        """
+        if self.is_overdue():
+            self.state = self.State.OVERDUE
