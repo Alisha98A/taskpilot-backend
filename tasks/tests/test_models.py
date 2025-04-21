@@ -77,3 +77,19 @@ class TestTaskModel(TestCase):
 
         task.set_overdue_state()
         self.assertEqual(task.state, Task.State.OVERDUE)
+
+    # ---------- Tests for String Representation ----------
+
+    def test_task_str_representation(self):
+        """Test the string output of a Task instance (__str__)."""
+        due_date = timezone.now() + timezone.timedelta(days=3)
+
+        task = Task.objects.create(
+            title="My String Test",
+            description="Testing __str__",
+            due_date=due_date,
+            owner=self.user
+        )
+
+        expected = f"[{task.get_priority_display()}] {task.title} — Due: {due_date:%Y-%m-%d} — Status: {task.get_state_display()}"
+        self.assertEqual(str(task), expected)
