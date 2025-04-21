@@ -71,3 +71,12 @@ class Task(models.Model):
     # ---------- Timestamps ----------
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+
+    # ---------- Utility Methods ----------
+    def is_overdue(self):
+        """
+        Determines if the task is overdue based on the due date.
+        Returns True if the task is overdue and not yet marked as 'done'.
+        """
+        return self.due_date < timezone.now() and self.state != self.State.DONE
