@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from cloudinary.models import CloudinaryField
+from .validators import validate_file_size, validate_file_type
 
 # ---------- User Model ----------
 User = get_user_model()
@@ -38,3 +40,8 @@ class Task(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     due_date = models.DateTimeField()
+    attachment = CloudinaryField(
+        'file',
+        blank=True,
+        validators=[validate_file_size, validate_file_type]
+    )
