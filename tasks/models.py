@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from cloudinary.models import CloudinaryField
+from django.utils import timezone
 from .validators import validate_file_size, validate_file_type
+from cloudinary.models import CloudinaryField
 
 # ---------- User Model ----------
 User = get_user_model()
+
 
 # ---------- Task Model ----------
 class Task(models.Model):
@@ -72,6 +74,11 @@ class Task(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    # ---------- Model Meta Options ----------
+    class Meta:
+        ordering = ['due_date']
+        verbose_name = "Task"
+        verbose_name_plural = "Tasks"
 
     # ---------- Utility Methods ----------
     def is_overdue(self):
@@ -107,4 +114,4 @@ class Task(models.Model):
             f"[{self.get_priority_display()}] {self.title} — "
             f"Due: {self.due_date:%Y-%m-%d} — "
             f"Status: {self.get_state_display()}"
-            )
+        )
