@@ -96,3 +96,15 @@ class Task(models.Model):
         """
         self.set_overdue_state()
         super().save(*args, **kwargs)
+
+    # ---------- String Representation ----------
+    def __str__(self):
+        """
+        String representation of the Task object.
+        Shows priority, title, formatted due date, and human-readable state.
+        """
+        return (
+            f"[{self.get_priority_display()}] {self.title} — "
+            f"Due: {self.due_date:%Y-%m-%d} — "
+            f"Status: {self.get_state_display()}"
+            )
