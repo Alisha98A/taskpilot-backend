@@ -87,3 +87,12 @@ class Task(models.Model):
         """
         if self.is_overdue():
             self.state = self.State.OVERDUE
+
+    # ---------- Save Method Override ----------
+    def save(self, *args, **kwargs):
+        """
+        Overrides the save method to check
+        if the task is overdue before saving.
+        """
+        self.set_overdue_state()
+        super().save(*args, **kwargs)
