@@ -45,3 +45,8 @@ class Task(models.Model):
         blank=True,
         validators=[validate_file_size, validate_file_type]
     )
+
+    # ---------- Relationships ----------
+    owner = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='tasks'
+    )
