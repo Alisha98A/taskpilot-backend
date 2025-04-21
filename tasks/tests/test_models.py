@@ -48,3 +48,17 @@ class TestTaskModel(TestCase):
 
         self.assertEqual(task.state, Task.State.OVERDUE)
         self.assertTrue(task.is_overdue())
+
+    def test_is_overdue_method(self):
+        """Test the is_overdue() utility method directly."""
+        due_date = timezone.now() - timezone.timedelta(days=1)
+
+        task = Task.objects.create(
+            title="Overdue Check",
+            description="Testing is_overdue method",
+            due_date=due_date,
+            owner=self.user
+        )
+
+        self.assertTrue(task.is_overdue())
+        self.assertEqual(task.state, Task.State.OVERDUE)
