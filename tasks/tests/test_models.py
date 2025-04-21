@@ -32,3 +32,19 @@ class TestTaskModel(TestCase):
         self.assertEqual(task.priority, Task.Priority.MEDIUM)
         self.assertEqual(task.category, Task.Category.MISC)
         self.assertFalse(task.is_overdue())
+
+    # ---------- Tests for Overdue Logic ----------
+
+    def test_task_is_marked_overdue_on_save(self):
+        """Test that a past-due task is automatically marked as overdue when saved."""
+        past_due_date = timezone.now() - timezone.timedelta(days=1)
+
+        task = Task.objects.create(
+            title="Past Due Task",
+            description="This task is overdue",
+            due_date=past_due_date,
+            owner=self.user
+        )
+
+        self.assertEqual(task.state, Task.State.OVERDUE)
+        self.assertTrue(task.is_overdue())
