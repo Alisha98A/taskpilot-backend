@@ -61,4 +61,19 @@ class TestTaskModel(TestCase):
         )
 
         self.assertTrue(task.is_overdue())
+
+    def test_set_overdue_state_method(self):
+        """Test the set_overdue_state() method updates state properly."""
+        due_date = timezone.now() - timezone.timedelta(days=1)
+
+        task = Task(
+            title="Manual Overdue Test",
+            description="Testing set_overdue_state",
+            due_date=due_date,
+            owner=self.user
+        )
+        # Initial state should be OPEN before saving
+        self.assertEqual(task.state, Task.State.OPEN)
+
+        task.set_overdue_state()
         self.assertEqual(task.state, Task.State.OVERDUE)
