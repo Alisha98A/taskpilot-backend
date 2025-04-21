@@ -93,3 +93,31 @@ class TestTaskModel(TestCase):
 
         expected = f"[{task.get_priority_display()}] {task.title} — Due: {due_date:%Y-%m-%d} — Status: {task.get_state_display()}"
         self.assertEqual(str(task), expected)
+
+    # ---------- Tests for QuerySet Ordering ----------
+
+    def test_tasks_are_ordered_by_due_date(self):
+        """Test that tasks are returned ordered by due date (ascending)."""
+        task1 = Task.objects.create(
+            title="First Task",
+            description="Early",
+            due_date=timezone.now() + timezone.timedelta(days=2),
+            owner=self.user
+        )
+        task2 = Task.objects.create(
+            title="Second Task",
+            description="Later",
+            due_date=timezone.now() + timezone.timedelta(days=5),
+            owner=self.user
+        )
+        task3 = Task.objects.create(
+            title="Third Task",
+            description="Earliest",
+            due_date=timezone.now() + timezone.timedelta(days=1),
+            owner=self.user
+        )
+
+        tasks = list(Task.objects.all())
+        expected_order = [task3, task1, task2]
+
+        self.assertEqual(tasks, expected_order)
