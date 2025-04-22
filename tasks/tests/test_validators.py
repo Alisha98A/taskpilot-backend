@@ -12,7 +12,9 @@ class ValidatorTests(TestCase):
 
     # Test that an oversized file (11MB) triggers a ValidationError
     def test_validate_file_size_invalid(self):
-        file = SimpleUploadedFile("bigfile.pdf", b"0" * (11 * 1024 * 1024))  # 11MB
+        file = SimpleUploadedFile(
+            "bigfile.pdf",
+            b"0" * (11 * 1024 * 1024))  # 11MB
         with self.assertRaises(ValidationError):
             validators.validate_file_size(file)
 
@@ -20,3 +22,9 @@ class ValidatorTests(TestCase):
     def test_validate_file_type_valid_pdf(self):
         file = SimpleUploadedFile("test.pdf", b"dummy content")
         self.assertIsNone(validators.validate_file_type(file))
+
+    # Test that a disallowed file type (.exe) triggers a ValidationError
+    def test_validate_file_type_invalid(self):
+        file = SimpleUploadedFile("test.exe", b"dummy content")
+        with self.assertRaises(ValidationError):
+            validators.validate_file_type(file)
