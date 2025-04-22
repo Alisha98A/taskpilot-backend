@@ -5,4 +5,7 @@ from tasks import validators
 
 
 class ValidatorTests(TestCase):
-    pass
+    # Test that a small file (about 5KB) passes the size validation
+    def test_validate_file_size_valid(self):
+        file = SimpleUploadedFile("test.pdf", b"12345" * 1024)  # ~5KB
+        self.assertIsNone(validators.validate_file_size(file))
