@@ -9,3 +9,9 @@ class ValidatorTests(TestCase):
     def test_validate_file_size_valid(self):
         file = SimpleUploadedFile("test.pdf", b"12345" * 1024)  # ~5KB
         self.assertIsNone(validators.validate_file_size(file))
+
+    # Test that an oversized file (11MB) triggers a ValidationError
+    def test_validate_file_size_invalid(self):
+        file = SimpleUploadedFile("bigfile.pdf", b"0" * (11 * 1024 * 1024))  # 11MB
+        with self.assertRaises(ValidationError):
+            validators.validate_file_size(file)
