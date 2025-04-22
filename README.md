@@ -99,4 +99,9 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 ---
 
-Happy coding!
+Sources:
+
+Part of code from test_validators.py are taken from
+https://docs.djangoproject.com/en/5.2/ref/files/uploads/
+(About - UploadedFile.size: The size, in bytes, of the uploaded file.)
+and https://docs.djangoproject.com/en/5.2/ref/validators/
