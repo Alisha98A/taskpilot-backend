@@ -15,3 +15,8 @@ class ValidatorTests(TestCase):
         file = SimpleUploadedFile("bigfile.pdf", b"0" * (11 * 1024 * 1024))  # 11MB
         with self.assertRaises(ValidationError):
             validators.validate_file_size(file)
+
+    # Test that a valid PDF file passes the file type validation
+    def test_validate_file_type_valid_pdf(self):
+        file = SimpleUploadedFile("test.pdf", b"dummy content")
+        self.assertIsNone(validators.validate_file_type(file))
