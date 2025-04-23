@@ -98,10 +98,34 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
 
 ---
+## Credits
 
-Sources:
 
 Part of code from test_validators.py are taken from
 https://docs.djangoproject.com/en/5.2/ref/files/uploads/
 (About - UploadedFile.size: The size, in bytes, of the uploaded file.)
 and https://docs.djangoproject.com/en/5.2/ref/validators/
+
+
+This project builds on foundational concepts provided by the Django REST Framework (DRF) documentation and educational walkthroughs.
+
+
+- Adapted parts of the Task views and serializers from the Profile example in Code Institute’s walkthrough project - Django REST Framework
+https://www.youtube.com/watch?v=bDfQdBL70oM&t=320s
+https://www.youtube.com/watch?v=uAyRQA4UIGY&t=399s
+https://www.youtube.com/watch?v=e3sJYZ_UyBk
+
+
+
+permissions.py
+- In particular, I adapted the following permission logic from a common DRF example:
+
+"from rest_framework import permissions
+
+class IsOwnerOrReadOnly(permissions.BasePermission):
+    def has_object_permission(self, request, view, obj):
+        if request.method in permissions.SAFE_METHODS:
+            return True
+        return obj.owner == request.user"
+
+While this example allows read-only access to unauthenticated or non-owning users, I modified it for my own use case — a productivity app where only authenticated users who own a task can view or edit it. The changes were made based on best practices outlined in the official DRF documentation on custom permissions - LINK - https://www.django-rest-framework.org/api-guide/permissions/
