@@ -3,14 +3,15 @@ from rest_framework import permissions
 
 class IsOwnerOnly(permissions.BasePermission):
     """
-    Custom permission to only allow owners of a task to view or edit it.
-    Unauthenticated users or non-owners get no access.
+    Custom permission to allow only the owner of a task to access or modify it.
+    - Unauthenticated users are denied at the view level.
+    - Authenticated users are allowed only if they own the object.
     """
 
-    def has_object_permission(self, request, view, obj):
-        # First check if the user is authenticated
-        if not request.user or not request.user.is_authenticated:
-            return False
+    def has_permission(self, request, view):
+        # Deny access entirely if user is not authenticated
+        return request.user and request.user.is_authenticated
 
-        # Then check if the object belongs to the user
-        return obj.owner == request.user
+    def has_object_permission(self, request, view, obj):
+        # Allow access only if the object's owner matches the request user
+        return getattr(obj, 'owner', None) == request.user
