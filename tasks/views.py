@@ -40,6 +40,7 @@ class TaskDetail(APIView):
     API view to retrieve, update, or delete a specific task.
     Only the owner can perform these actions.
     """
+    serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOnly]
 
     def get_object(self, pk):
