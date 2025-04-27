@@ -44,6 +44,7 @@ class Task(models.Model):
     due_date = models.DateTimeField()
     attachment = CloudinaryField(
         'file',
+        default='default/default_image_omif5j',
         blank=True,
         validators=[validate_file_size, validate_file_type]
     )
