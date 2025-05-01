@@ -46,6 +46,7 @@ class Task(models.Model):
         'file',
         default='default/default_image_omif5j',
         blank=True,
+        null=True,
         validators=[validate_file_size, validate_file_type]
     )
 
