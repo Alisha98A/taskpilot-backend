@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import Task
+from .validators import validate_file_size, validate_file_type
 
 # Adapted from Django REST Framework walkthrough project
 # provided by Code Institute.
@@ -8,7 +9,11 @@ from .models import Task
 
 class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    attachment = serializers.FileField(allow_null=True, required=False)
+    attachment = serializers.FileField(
+        allow_null=True,
+        required=False,
+        validators=[validate_file_size, validate_file_type]
+    )
     is_owner = serializers.SerializerMethodField()
 
     def get_is_owner(self, obj):
