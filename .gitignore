@@ -31,3 +31,4 @@ db.sqlite3
 
 # Django migrations can be committed EXCEPT pyc files
 *.pyc
+taskpilot_api/__pycache__/settings.cpython-312.pyc
