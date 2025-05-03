@@ -33,6 +33,8 @@ class TaskListView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    def get_serializer(self):
+        return TaskSerializer(context={'request': self.request})
 
 # ---------- Task Detail, Update, and Delete View ----------
 class TaskDetail(APIView):
