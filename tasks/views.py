@@ -1,7 +1,8 @@
 from django.http import Http404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, generics
+from django_filters.rest_framework import DjangoFilterBackend
 from .models import Task
 from .serializers import TaskSerializer
 from taskpilot_api.permissions import IsOwnerOnly
@@ -10,20 +11,25 @@ from taskpilot_api.permissions import IsOwnerOnly
 # provided by Code Institute.
 # Original example used a Profile model, adapted here for Task management
 
-
 # ---------- Task List and Create View ----------
-class TaskListView(APIView):
+class TaskListView(generics.ListCreateAPIView):
     """
     API view to retrieve or create tasks for the authenticated user.
     Only returns tasks owned by the authenticated user.
     """
+    serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['priority', 'state', 'category', 'due_date']
 
-    def get(self, request):
-        tasks = Task.objects.filter(owner=request.user)
-        serializer = TaskSerializer(
-            tasks, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+    def get_queryset(self):
+        return Task.objects.filter(owner=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
     def post(self, request):
         serializer = TaskSerializer(
@@ -32,9 +38,6 @@ class TaskListView(APIView):
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get_serializer(self):
-        return TaskSerializer(context={'request': self.request})
 
 # ---------- Task Detail, Update, and Delete View ----------
 class TaskDetail(APIView):
