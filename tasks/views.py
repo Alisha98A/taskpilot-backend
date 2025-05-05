@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Task
-from .serializers import TaskSerializer
+from .models import Task, Note
+from .serializers import TaskSerializer, NoteSerializer
 from taskpilot_api.permissions import IsOwnerOnly
 
 # Adapted from Django REST Framework walkthrough project
@@ -45,7 +45,6 @@ class TaskDetail(APIView):
     API view to retrieve, update, or delete a specific task.
     Only the owner can perform these actions.
     """
-    serializer_class = TaskSerializer
     permission_classes = [permissions.IsAuthenticated, IsOwnerOnly]
 
     def get_object(self, pk):
@@ -58,8 +57,11 @@ class TaskDetail(APIView):
 
     def get(self, request, pk):
         task = self.get_object(pk)
-        serializer = TaskSerializer(task, context={'request': request})
-        return Response(serializer.data)
+        # Include related notes in the task response
+        notes = Note.objects.filter(task=task)
+        task_data = TaskSerializer(task, context={'request': request}).data
+        task_data['notes'] = NoteSerializer(notes, many=True).data
+        return Response(task_data)
 
     def put(self, request, pk):
         task = self.get_object(pk)
