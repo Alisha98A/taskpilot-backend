@@ -7,6 +7,7 @@ from .validators import validate_file_size, validate_file_type
 # Original example used a Profile model, adapted here for Task management
 
 
+# ---------------- Task Serializer ----------------
 class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     attachment = serializers.FileField(
@@ -27,3 +28,21 @@ class TaskSerializer(serializers.ModelSerializer):
             'priority', 'category', 'state',
             'created_at', 'updated_at', 'owner', 'is_owner'
         ]
+
+
+# ---------------- Note Serializer ----------------
+class NoteSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.none())
+
+    class Meta:
+        model = Note
+        fields = ['id', 'task', 'user', 'body', 'date_added', 'date_updated']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        request = self.context.get('request', None)
+        if request and request.user.is_authenticated:
+            self.fields['task'].queryset = Task.objects.filter(
+                owner=request.user
+                )
