@@ -12,4 +12,5 @@ urlpatterns = [
     path('notes/<int:pk>/', NoteDetailView.as_view(), name='note-detail'),
 
     path('contact/', ContactCreateView.as_view(), name='contact-create'),
+    path('contact/messages/', ContactListView.as_view(), name='contact-list'),
 ]
