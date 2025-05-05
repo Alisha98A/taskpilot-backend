@@ -146,3 +146,32 @@ class Note(models.Model):
     # ---------- String Representation ----------
     def __str__(self):
         return f"Note by {self.user.username} on {self.task.title}"
+
+
+class Contact(models.Model):
+    """
+    Feedback or issue report submitted by a user.
+    """
+    # ---------- Relationships ----------
+    user = models.ForeignKey(
+        User, on_delete=models.SET_NULL,
+        null=True, blank=True)
+
+    # ---------- Core Fields ----------
+    subject = models.CharField(max_length=255)
+    message = models.TextField()
+    email = models.EmailField(max_length=255, null=True, blank=True)
+
+    # ---------- Timestamps ----------
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    # ---------- Save Method Override ----------
+    def save(self, *args, **kwargs):
+        # Use the user’s account email if none is manually provided.
+        if not self.email and self.user:
+            self.email = self.user.email
+        super().save(*args, **kwargs)
+
+    # ---------- String Representation ----------
+    def __str__(self):
+        return f"{self.subject} ({self.user.username})"
