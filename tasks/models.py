@@ -117,3 +117,32 @@ class Task(models.Model):
             f"Due: {self.due_date:%Y-%m-%d} — "
             f"Status: {self.get_state_display()}"
         )
+
+
+class Note(models.Model):
+    """
+    Model representing a note attached to a task.
+    Notes are created by users and linked to tasks.
+    """
+    # ---------- Relationships ----------
+    task = models.ForeignKey(
+        Task, on_delete=models.CASCADE, related_name='notes'
+    )
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name='notes'
+    )
+
+    # ---------- Core Fields ----------
+    body = models.TextField()
+
+    # ---------- Timestamps ----------
+    date_added = models.DateTimeField(auto_now_add=True)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    # ---------- Model Meta Options ----------
+    class Meta:
+        ordering = ['-date_added']
+
+    # ---------- String Representation ----------
+    def __str__(self):
+        return f"Note by {self.user.username} on {self.task.title}"
