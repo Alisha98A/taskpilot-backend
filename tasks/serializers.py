@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Task
+from .models import Task, Note, Contact
 from .validators import validate_file_size, validate_file_type
 
 # Adapted from Django REST Framework walkthrough project
