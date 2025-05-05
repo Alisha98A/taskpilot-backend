@@ -54,3 +54,12 @@ class TaskWithNotesSerializer(TaskSerializer):
 
     class Meta(TaskSerializer.Meta):
         fields = TaskSerializer.Meta.fields + ['notes']
+
+
+# ---------------- Contact Serializer ----------------
+class ContactSerializer(serializers.ModelSerializer):
+    user = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Contact
+        fields = ['id', 'user', 'email', 'subject', 'message', 'submitted_at']
