@@ -3,8 +3,8 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from django_filters.rest_framework import DjangoFilterBackend
-from .models import Task, Note
-from .serializers import TaskSerializer, NoteSerializer
+from .models import Task, Note, Contact
+from .serializers import TaskSerializer, NoteSerializer, ContactSerializer
 from taskpilot_api.permissions import IsOwnerOnly
 
 # Adapted from Django REST Framework walkthrough project
@@ -106,3 +106,28 @@ class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Note.objects.filter(user=self.request.user)
+
+
+# ---------- Contact Create View ----------
+class ContactCreateView(generics.CreateAPIView):
+    """
+    API view to create contact messages.
+    Users must be authenticated to send messages.
+    """
+    serializer_class = ContactSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+# ---------- Contact List View (Admin Only) ----------
+class ContactListView(generics.ListAPIView):
+    """
+    API view to list contact messages. Only accessible by admin users.
+    """
+    serializer_class = ContactSerializer
+    permission_classes = [permissions.IsAdminUser]
+
+    def get_queryset(self):
+        return Contact.objects.all().order_by('-submitted_at')
