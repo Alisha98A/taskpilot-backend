@@ -11,6 +11,7 @@ from taskpilot_api.permissions import IsOwnerOnly
 # provided by Code Institute.
 # Original example used a Profile model, adapted here for Task management
 
+
 # ---------- Task List and Create View ----------
 class TaskListView(generics.ListCreateAPIView):
     """
@@ -38,6 +39,7 @@ class TaskListView(generics.ListCreateAPIView):
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # ---------- Task Detail, Update, and Delete View ----------
 class TaskDetail(APIView):
@@ -76,3 +78,31 @@ class TaskDetail(APIView):
         task = self.get_object(pk)
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+# ---------- Note List and Create View ----------
+class NoteListCreateView(generics.ListCreateAPIView):
+    """
+    API view to list and create notes for the authenticated user.
+    """
+    serializer_class = NoteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Note.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+
+# ---------- Note Detail View ----------
+class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API view to retrieve, update, or delete a specific note.
+    Only allows the owner of the note to perform these actions.
+    """
+    serializer_class = NoteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Note.objects.filter(user=self.request.user)
