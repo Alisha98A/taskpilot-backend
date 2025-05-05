@@ -46,3 +46,11 @@ class NoteSerializer(serializers.ModelSerializer):
             self.fields['task'].queryset = Task.objects.filter(
                 owner=request.user
                 )
+
+
+# ---------------- Task with Notes Serializer ----------------
+class TaskWithNotesSerializer(TaskSerializer):
+    notes = NoteSerializer(many=True, read_only=True)
+
+    class Meta(TaskSerializer.Meta):
+        fields = TaskSerializer.Meta.fields + ['notes']
