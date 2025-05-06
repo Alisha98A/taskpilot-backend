@@ -117,6 +117,20 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
+# JWT Authentication settings
+REST_USE_JWT = True
+
+# Define cookie settings for JWT
+JWT_AUTH_SECURE = True
+JWT_AUTH_COOKIE = 'my-app-auth'
+JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+
+# Optional: You can define your custom user serializer for JWT
+# REST_AUTH_SERIALIZERS = {
+#    'USER_DETAILS_SERIALIZER': 'tasks.serializers.CustomUserSerializer',
+#}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
