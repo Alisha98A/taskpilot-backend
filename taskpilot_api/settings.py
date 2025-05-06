@@ -57,8 +57,9 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -134,6 +135,16 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+    'http://localhost:3000',  # React dev server
+    # Add your deployed frontend URL here:
+    # 'https://your-frontend-app.web.app',
+]
+
+CORS_ALLOW_CREDENTIALS = True  # Needed for cookie-based JWT auth
+
+# Email backend (for dev)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
