@@ -6,6 +6,7 @@ cloudinary==1.44.0
 coverage==7.8.0
 cryptography==44.0.3
 defusedxml==0.7.1
+dj-database-url==0.5.0
 dj-rest-auth==2.2.8
 Django==3.2.25
 django-allauth==0.50.0
@@ -14,9 +15,12 @@ django-cors-headers==3.14.0
 django-filter==2.4.0
 djangorestframework==3.12.4
 djangorestframework-simplejwt==4.8.0
+gunicorn==23.0.0
 idna==3.10
 oauthlib==3.2.2
+packaging==25.0
 pillow==11.1.0
+psycopg2==2.9.10
 pycparser==2.22
 PyJWT==2.9.0
 python3-openid==3.2.0
