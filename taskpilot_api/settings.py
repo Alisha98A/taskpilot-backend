@@ -27,13 +27,14 @@ CLOUDINARY_STORAGE = {
 MEDIA_URL = '/media/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-temp-key-for-dev')
+ # SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.getenv('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'https://taskpilot-backend-6ee557f05c5b.herokuapp.com/']
 
 # Add production domain(s) like:
 # ALLOWED_HOSTS = ['your-backend.onrender.com']
@@ -60,8 +61,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -69,6 +70,21 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# CORS settings
+CORS_ALLOWED_ORIGINS = [
+   origin for origin in [
+     os.environ.get('CLIENT_ORIGIN'),
+     os.environ.get('CLIENT_ORIGIN_DEV')
+   ] if origin
+ ]
+
+CORS_ALLOW_CREDENTIALS = True  # Needed for cookie-based JWT auth
+
+
+# Email backend (for dev)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 
 ROOT_URLCONF = 'taskpilot_api.urls'
 
@@ -149,6 +165,7 @@ REST_USE_JWT = True
 JWT_AUTH_SECURE = True
 JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
+JWT_AUTH_SAMESITE = 'None'
 
 # Optional: You can define your custom user serializer for JWT
 # REST_AUTH_SERIALIZERS = {
@@ -174,15 +191,3 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# CORS settings
-CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',  # React dev server
-    # Add your deployed frontend URL here:
-    # 'https://your-frontend-app.web.app',
-]
-
-CORS_ALLOW_CREDENTIALS = True  # Needed for cookie-based JWT auth
-
-# Email backend (for dev)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
