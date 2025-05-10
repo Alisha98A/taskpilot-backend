@@ -193,3 +193,11 @@ STATIC_URL = 'static/'
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Redirect settings after login
+LOGIN_REDIRECT_URL = '/api/tasks/'
+
+# Additional settings for dj-rest-auth login redirect
+REST_AUTH = {
+    'LOGIN_REDIRECT_URL': '/api/tasks/',  # Ensure the same redirection applies to dj-rest-auth
+}
