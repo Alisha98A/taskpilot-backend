@@ -36,8 +36,9 @@ DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com']
 
-# Add production domain(s) like:
-# ALLOWED_HOSTS = ['your-backend.onrender.com']
+CSRF_TRUSTED_ORIGINS = [
+    'https://taskpilot-backend-6ee557f05c5b.herokuapp.com'
+]
 
 # Application definition
 INSTALLED_APPS = [
