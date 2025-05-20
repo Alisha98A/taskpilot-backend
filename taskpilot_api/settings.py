@@ -75,20 +75,19 @@ MIDDLEWARE = [
 
 # CORS settings
 
-# For debugging: print CORS origins on startup
-print("CORS_ALLOWED_ORIGINS:", [
-    origin for origin in [
-        os.environ.get('CLIENT_ORIGIN'),
-        os.environ.get('CLIENT_ORIGIN_DEV')
-    ] if origin
-])
-
+#Delete this before production
 CORS_ALLOWED_ORIGINS = [
-    origin for origin in [
-        os.environ.get('CLIENT_ORIGIN'),
-        os.environ.get('CLIENT_ORIGIN_DEV')
-    ] if origin
+    'http://localhost:3000',
+    'https://taskpilot-frontend-cb6ae3453663.herokuapp.com',
 ]
+
+# Add this back before production
+#CORS_ALLOWED_ORIGINS = [
+#    origin for origin in [
+#        os.environ.get('CLIENT_ORIGIN'),
+#        os.environ.get('CLIENT_ORIGIN_DEV')
+#    ] if origin
+#]
 
 CORS_ALLOW_CREDENTIALS = True  # Needed for cookie-based JWT auth
 
