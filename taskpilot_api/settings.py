@@ -34,11 +34,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com', 'f078-82-209-141-99.ngrok-free.app']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://taskpilot-backend-6ee557f05c5b.herokuapp.com',
     'http://localhost:3000',
+    'https://tahr-emerging-regularly.ngrok-free.app',
+    'https://f078-82-209-141-99.ngrok-free.app',
 ]
 
 # Application definition
@@ -79,6 +81,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://taskpilot-frontend-cb6ae3453663.herokuapp.com',
+    'https://tahr-emerging-regularly.ngrok-free.app',
 ]
 
 # Add this back before production
