@@ -4,7 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status, permissions, generics
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Task, Note, Contact
-from .serializers import TaskSerializer, NoteSerializer, ContactSerializer
+from .serializers import (
+    TaskSerializer,
+    TaskWithNotesSerializer,
+    NoteSerializer,
+    ContactSerializer
+)
 from taskpilot_api.permissions import IsOwnerOnly
 
 # Adapted from Django REST Framework walkthrough project
@@ -59,11 +64,8 @@ class TaskDetail(APIView):
 
     def get(self, request, pk):
         task = self.get_object(pk)
-        # Include related notes in the task response
-        notes = Note.objects.filter(task=task)
-        task_data = TaskSerializer(task, context={'request': request}).data
-        task_data['notes'] = NoteSerializer(notes, many=True).data
-        return Response(task_data)
+        serializer = TaskWithNotesSerializer(task, context={'request': request})
+        return Response(serializer.data)
 
     def put(self, request, pk):
         task = self.get_object(pk)
