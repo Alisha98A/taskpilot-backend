@@ -1,7 +1,6 @@
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from rest_framework import serializers
 from .models import Task, Note, Contact
-from .validators import validate_file_size, validate_file_type
 
 # Adapted from Django REST Framework walkthrough project
 # provided by Code Institute.
@@ -11,11 +10,6 @@ from .validators import validate_file_size, validate_file_type
 # ---------------- Task Serializer ----------------
 class TaskSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
-    attachment = serializers.FileField(
-        allow_null=True,
-        required=False,
-        validators=[validate_file_size, validate_file_type]
-    )
     is_owner = serializers.SerializerMethodField()
     created_at = serializers.SerializerMethodField()
     updated_at = serializers.SerializerMethodField()
@@ -35,7 +29,7 @@ class TaskSerializer(serializers.ModelSerializer):
     class Meta:
         model = Task
         fields = [
-            'id', 'title', 'description', 'due_date', 'attachment',
+            'id', 'title', 'description', 'due_date',
             'priority', 'category', 'state',
             'created_at', 'updated_at', 'owner', 'is_owner'
         ]
@@ -56,7 +50,7 @@ class NoteSerializer(serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             self.fields['task'].queryset = Task.objects.filter(
                 owner=request.user
-                )
+            )
 
 
 # ---------------- Task with Notes Serializer ----------------

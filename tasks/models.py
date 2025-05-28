@@ -1,8 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-from .validators import validate_file_size, validate_file_type
-from cloudinary.models import CloudinaryField
 
 # ---------- User Model ----------
 User = get_user_model()
@@ -12,7 +10,7 @@ User = get_user_model()
 class Task(models.Model):
     """
     Model representing a task. A task is personal and owned by a user.
-    Tasks have a title, description, due date, attachment, priority, category,
+    Tasks have a title, description, due date, priority, category,
     state, and tracking for creation and updates.
     """
 
@@ -42,13 +40,6 @@ class Task(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField(blank=True)
     due_date = models.DateTimeField()
-    attachment = CloudinaryField(
-        'file',
-        default='default/default_image_omif5j',
-        blank=True,
-        null=True,
-        validators=[validate_file_size, validate_file_type]
-    )
 
     # ---------- Relationships ----------
     owner = models.ForeignKey(
