@@ -38,7 +38,7 @@ class TaskSerializer(serializers.ModelSerializer):
 # ---------------- Note Serializer ----------------
 class NoteSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
-    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.none())
+    task = TaskSerializer(read_only=True)
 
     class Meta:
         model = Note
