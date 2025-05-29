@@ -8,14 +8,16 @@ from .serializers import (
     TaskSerializer,
     TaskWithNotesSerializer,
     NoteSerializer,
-    ContactSerializer
+    ContactSerializer,
 )
 from taskpilot_api.permissions import IsOwnerOnly
+import logging
 
 # Adapted from Django REST Framework walkthrough project
 # provided by Code Institute.
 # Original example used a Profile model, adapted here for Task management
 
+logger = logging.getLogger(__name__) 
 
 # ---------- Task List and Create View ----------
 class TaskListView(generics.ListCreateAPIView):
@@ -106,8 +108,13 @@ class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = NoteSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get_queryset(self):
-        return Note.objects.filter(user=self.request.user)
+    def get_object(self):
+        pk = self.kwargs.get("pk")
+        try:
+            return Note.objects.get(pk=pk, user=self.request.user)
+        except Note.DoesNotExist:
+            logger.warning(f"Note with ID {pk} not found or not owned by {self.request.user}")
+            raise Http404("Note not found")
 
 
 # ---------- Contact Create View ----------
