@@ -38,7 +38,7 @@ class TaskSerializer(serializers.ModelSerializer):
 # ---------------- Note Serializer ----------------
 class NoteSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source='user.username')
-    task = TaskSerializer(read_only=True)
+    task = serializers.PrimaryKeyRelatedField(queryset=Task.objects.none())
 
     class Meta:
         model = Note
@@ -48,9 +48,15 @@ class NoteSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
         request = self.context.get('request', None)
         if request and request.user.is_authenticated:
-            self.fields['task'].queryset = Task.objects.filter(
-                owner=request.user
-            )
+            self.fields['task'].queryset = Task.objects.filter(owner=request.user)
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['task'] = {
+            'id': instance.task.id,
+            'title': instance.task.title,
+        }
+        return rep
 
 
 # ---------------- Task with Notes Serializer ----------------
