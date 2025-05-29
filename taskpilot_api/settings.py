@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
  # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEV' in os.environ
+DEBUG = True
+# DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com', 'f078-82-209-141-99.ngrok-free.app']
 
