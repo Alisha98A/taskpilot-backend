@@ -68,20 +68,16 @@ MIDDLEWARE = [
 
 # CORS settings
 
-#Delete this before production
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'https://taskpilot-frontend-cb6ae3453663.herokuapp.com',
     'https://tahr-emerging-regularly.ngrok-free.app',
 ]
 
-
-CORS_ALLOWED_ORIGINS = [
-    origin for origin in [
-        os.environ.get('CLIENT_ORIGIN'),
-        os.environ.get('CLIENT_ORIGIN_DEV')
-    ] if origin
-]
+# Append environment variables if they exist and are not duplicates
+for origin in [os.environ.get('CLIENT_ORIGIN'), os.environ.get('CLIENT_ORIGIN_DEV')]:
+    if origin and origin not in CORS_ALLOWED_ORIGINS:
+        CORS_ALLOWED_ORIGINS.append(origin)
 
 CORS_ALLOW_CREDENTIALS = True  # Needed for cookie-based JWT auth
 
