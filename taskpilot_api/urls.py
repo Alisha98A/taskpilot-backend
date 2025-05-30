@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
-from .views import logout_route
 from django.views.generic import TemplateView
 from rest_framework_simplejwt import views as jwt_views
+from .views import logout_route 
 
 urlpatterns = [
     # React front end served at root
@@ -10,13 +10,12 @@ urlpatterns = [
     
     # Admin panel
     path('admin/', admin.site.urls),
-    
-    # API routes - all prefixed with /api/
-    path('api/api-auth/', include('rest_framework.urls')),  # For browsing the API
-    
-    path('api/dj-rest-auth/logout/', logout_route),
-    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),    
-    path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),  # Registration
+
+    # API
+    path('api/api-auth/', include('rest_framework.urls')),
+    path('api/dj-rest-auth/logout/', logout_route, name='logout'),
+    path('api/dj-rest-auth/', include('dj_rest_auth.urls')),
+    path('api/dj-rest-auth/registration/', include('dj_rest_auth.registration.urls')),
     
     path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
