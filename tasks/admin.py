@@ -1,6 +1,8 @@
 from django.contrib import admin
 from .models import Task, Note
+from .models import Contact
 
+admin.site.register(Contact)
 
 class NoteInline(admin.TabularInline):
     model = Note
