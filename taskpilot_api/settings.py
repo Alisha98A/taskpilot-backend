@@ -24,8 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-# DEBUG = 'DEV' in os.environ
+DEBUG = 'DEV' in os.environ
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com', 'f078-82-209-141-99.ngrok-free.app']
 
@@ -76,18 +75,18 @@ CORS_ALLOWED_ORIGINS = [
     'https://tahr-emerging-regularly.ngrok-free.app',
 ]
 
-# Add this back before production
-#CORS_ALLOWED_ORIGINS = [
-#    origin for origin in [
-#        os.environ.get('CLIENT_ORIGIN'),
-#        os.environ.get('CLIENT_ORIGIN_DEV')
-#    ] if origin
-#]
+
+CORS_ALLOWED_ORIGINS = [
+    origin for origin in [
+        os.environ.get('CLIENT_ORIGIN'),
+        os.environ.get('CLIENT_ORIGIN_DEV')
+    ] if origin
+]
 
 CORS_ALLOW_CREDENTIALS = True  # Needed for cookie-based JWT auth
 
 
-# Email backend (for dev)
+# Email backend
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
