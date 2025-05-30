@@ -24,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = 'DEV' in os.environ
+#DEBUG = 'DEV' in os.environ
+DEBUG = True
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com', 'f078-82-209-141-99.ngrok-free.app']
 
@@ -88,10 +89,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 ROOT_URLCONF = 'taskpilot_api.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'staticfiles' / 'build'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -187,7 +189,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic, production use
+
+# If you want Django to look in staticfiles/build/static for static assets:
+STATICFILES_DIRS = [
+    BASE_DIR / 'staticfiles' / 'build' / 'static',
+]
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
