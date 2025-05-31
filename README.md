@@ -229,18 +229,161 @@ Chrome extension used to simulate how people with disabilities experience the si
 
 ## Deployment
 
-*(Instructions for deploying your app)*
+---
 
-## 🛠️ Installation
+### Initial Setup
 
-### 1. Clone the backend repo (contains everything now)
+- Sign up for a Heroku account at [heroku.com](https://www.heroku.com/).
+- Download and install the Heroku CLI to interact with Heroku from your local machine.
+- Alternatively, you can use the Heroku web interface for management tasks.
+
+---
+
+### Creating a Heroku App
+
+1. Log into your Heroku account.
+2. Click **New** > **Create new app**.
+3. Enter a unique app name.
+4. Choose your preferred region.
+5. Click **Create app**.
+
+---
+
+### Preparing the Application
+
+1. **Create a `Procfile`** in your project’s root directory.  
+   For Django, the `Procfile` should contain:
 
 ```bash
-git clone https://github.com/Alisha98A/taskpilot-backend.git
-cd taskpilot-backend
+release: python manage.py makemigrations && python manage.py migrate
+web: gunicorn taskpilot_api.wsgi
+```
+
+This tells Heroku how to start your web server using Gunicorn.
+
+2. Ensure your project has an up-to-date requirements.txt file listing all dependencies:
+
+```bash
+pip freeze > requirements.txt
+```
+
+3. Configure necessary environment variables in Heroku:
+	•	Go to your Heroku app dashboard.
+	•	Navigate to Settings > Config Vars.
+	•	Add variables such as SECRET_KEY, DATABASE_URL, and any others your project requires.
+
+4.	Add your Heroku domain to the Django ALLOWED_HOSTS in settings.py:
+
+```bash
+ALLOWED_HOSTS = ['your-heroku-app-name.herokuapp.com', 'localhost', '127.0.0.1']
 ```
 
 ---
+
+### Configure Buildpacks
+
+Heroku needs buildpacks to install dependencies not listed in `requirements.txt`:
+
+1. Go to your app’s **Settings** > **Buildpacks**.
+2. Add **Python** buildpack first.
+3. Add **Node.js** buildpack second.
+
+> The order is important: Python first, then Node.js. You can reorder by dragging if necessary.
+
+---
+
+### Deployment Process
+
+You can deploy your project in multiple ways:
+
+- **Using GitHub integration:**
+  - In your Heroku app dashboard, go to the **Deploy** tab.
+  - Select **GitHub** as the deployment method.
+  - Search for your repository `taskpilot-backend`.
+  - Click **Connect**.
+  - Scroll down to **Automatic Deploys** and click **Enable Automatic Deploys** to auto-deploy on every push, or
+  - Click **Deploy Branch** to manually deploy.
+
+- **Using Heroku CLI:**
+
+  From your local project folder, run:
+
+```bash
+heroku login
+heroku git:remote -a your-heroku-app-name
+git push heroku main
+```
+
+### Running Migrations on Heroku
+
+After deployment, run your Django migrations on the Heroku server:
+
+```bash
+heroku run python manage.py migrate
+```
+
+
+### Final Steps
+  • Verify that the Web Dyno is running in the Heroku dashboard under the Resources tab.
+  • Open your deployed application via the Heroku dashboard or run:
+
+```bash
+heroku open
+```
+
+### Local Deployment
+
+### How to Clone
+
+To work locally on your project:
+
+1. Navigate to the GitHub repository **taskpilot-backend**.  
+2. Click the **Code** dropdown.  
+3. Select **HTTPS** and copy the URL.  
+4. Open VSCode or your terminal.  
+5. Navigate to the directory where you want your project.  
+6. Run the command:
+
+```bash
+git clone https://github.com/Alisha98A/taskpilot-backend.git
+```
+
+7. Your project is now cloned locally.
+
+---
+
+### Install Dependencies
+
+Make sure you have Python and pip installed. Then, run:
+
+```bash
+pip install -r requirements.txt
+```
+
+### Run Application Locally
+
+Start your Django development server:
+
+```bash
+python manage.py runserver
+```
+
+Visit http://localhost:8000 to see your app running locally.
+
+
+### How to Fork a Repository
+
+Forking lets you copy someone else’s project to your own GitHub account to make changes safely.
+  1.  Log into GitHub.
+  2.  Navigate to the repository you want to fork.
+  3.  Click the Fork button in the top-right corner.
+  4.  Optionally rename your fork and add a description.
+  5.  Choose whether to fork just the main branch or all branches.
+  6.  Click Create fork.
+  7.  Your forked repository will appear in your GitHub account, ready for cloning and development.
+
+
+This concludes the deployment and version control guide tailored to TaskPilot project using VSCode.
 
 ---
 
