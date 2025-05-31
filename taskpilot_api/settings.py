@@ -189,12 +189,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # for collectstatic, production use
 
-# If you want Django to look in staticfiles/build/static for static assets:
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles' / 'build' / 'static',
+    BASE_DIR / 'staticfiles',  # React static files are here
 ]
+
+STATIC_ROOT = BASE_DIR / 'static' 
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
