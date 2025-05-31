@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
     'rest_framework',
     'rest_framework.authtoken',
     'django_filters',
@@ -93,7 +94,7 @@ ROOT_URLCONF = 'taskpilot_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'staticfiles' / 'build'],
+        'DIRS': [os.path.join(BASE_DIR, 'staticfiles', 'build')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -188,14 +189,21 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
+# Static files (CSS, JS, images)
 STATIC_URL = '/static/'
 
+# Collect static files from the React build folder
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles',  # React static files are here
+    BASE_DIR / 'staticfiles' / 'build' / 'static',
 ]
 
-STATIC_ROOT = BASE_DIR / 'static' 
+# Where collectstatic gathers everything
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
+# Tell WhiteNoise to serve index.html
+WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
+
+# WhiteNoise configuration (if you're using it)
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
