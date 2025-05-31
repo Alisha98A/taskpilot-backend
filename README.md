@@ -231,7 +231,7 @@ Chrome extension used to simulate how people with disabilities experience the si
 
 ---
 
-### Initial Setup
+### Initial Setup (for Django Backend Application)
 
 - Sign up for a Heroku account at [heroku.com](https://www.heroku.com/).
 - Download and install the Heroku CLI to interact with Heroku from your local machine.
@@ -322,7 +322,6 @@ After deployment, run your Django migrations on the Heroku server:
 heroku run python manage.py migrate
 ```
 
-
 ### Final Steps
   • Verify that the Web Dyno is running in the Heroku dashboard under the Resources tab.
   • Open your deployed application via the Heroku dashboard or run:
@@ -383,9 +382,250 @@ Forking lets you copy someone else’s project to your own GitHub account to mak
   7.  Your forked repository will appear in your GitHub account, ready for cloning and development.
 
 
-This concludes the deployment and version control guide tailored to TaskPilot project using VSCode.
+This concludes the deployment and version control guide tailored to TaskPilot backend repo project using VSCode.
 
 ---
+## Frontend Setup
+
+To set up the React frontend, please follow the instructions in the [TaskPilot Frontend README](https://github.com/Alisha98A/taskpilot-frontend/blob/main/README.md).
+
+---
+
+## Deployment Guide for React Front-End and Django API Back-End
+
+Once both the backend and frontend are set up individually, follow the steps below to integrate them and enable full-stack functionality.
+
+### Setting Up WhiteNoise for Serving Static Files
+
+Because your React application contains static resources, you need to gather them for deployment through WhiteNoise. WhiteNoise will also take care of static files used by the Django Admin panel, ensuring they are served correctly on your live site.
+
+---
+
+### Steps to follow in your terminal:
+
+1. Navigate to the root folder of your project if you aren’t already there.
+
+2. Install WhiteNoise by executing the following command:
+
+```bash
+   pip3 install whitenoise==6.4.0
+```
+
+3.	Update your requirements.txt file to reflect the newly installed package by running:
+
+4.	Create a directory named staticfiles inside the root directory with this command:
+
+```bash
+mkdir staticfiles
+   ```
+
+---
+
+### Modifying `settings.py`
+
+- Inside the `INSTALLED_APPS` list, verify that `'cloudinary_storage'` appears **after** `'django.contrib.staticfiles'`. This order prevents Cloudinary from disrupting static file management, enabling WhiteNoise to fully manage them.
+
+- Here is an example snippet of the `INSTALLED_APPS` section from `settings.py`.
+
+- In the `MIDDLEWARE` configuration, add the WhiteNoise middleware **right below** `SecurityMiddleware` and **above** `SessionMiddleware` as shown:
+
+```bash
+  'whitenoise.middleware.WhiteNoiseMiddleware',
+```
+
+-  Under the TEMPLATES configuration, at the DIRS key, add this path to let Django and WhiteNoise locate React’s index.html during deployment:
+
+
+```bash
+os.path.join(BASE_DIR, 'staticfiles', 'build')
+```
+
+- Finally, in the static files section, define both STATIC_ROOT and WHITENOISE_ROOT to point Django and WhiteNoise to the appropriate locations for the Admin static files and React static assets:
+
+```bash
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
+```
+
+---
+
+### Configuring the Route to Serve the React Front-End
+
+- To serve the React frontend at the root URL, we'll configure Django to load the React app instead of the default DRF interface. All 404s will redirect to React for client-side routing with `react-router-dom`.
+
+- We'll also prefix all API routes with `/api/` to avoid conflicts between React and DRF routes.
+
+⸻
+
+### Editing `urls.py` in Your Django Rest Framework Project
+
+- Delete the import of the `root_route` view from the `.views` imports.
+
+- Add an import for `TemplateView` from Django’s generic views with the following line:
+
+```bash
+  from django.views.generic import TemplateView
+  ```
+
+- Inside the `urlpatterns` list, remove the existing `root_route` entry and substitute it with a `TemplateView` that delivers the React `index.html` file:
+
+```bash
+  path('', TemplateView.as_view(template_name='index.html')),
+```
+
+- At the end of the file, include a 404 error handler so that React can manage routing when a page isn’t found:
+
+```bash
+  handler404 = TemplateView.as_view(template_name='index.html')
+  ```
+- Add the prefix api/ to all API URL patterns, excluding the homepage and admin panel routes:
+
+---
+
+### Updating `axiosDefaults.js`
+
+Because the API base URL has been modified, you need to update all API calls in the React application to start with `/api`. 
+
+Open `axiosDefaults.js`, locate the line that sets `axios.defaults.baseURL`, uncomment it, and set its value to:
+
+```bash
+axios.defaults.baseURL = "/api"
+```
+---
+
+### Gathering Static Files
+
+Run the following command in your terminal to collect static assets from both the Django Admin and DRF into the `staticfiles` folder you created earlier:
+
+```bash
+python3 manage.py collectstatic
+```
+---
+
+### Build and Transfer React Files
+
+1. Open a new terminal window and change directory to the React front-end folder by running:
+
+```bash
+   cd frontend
+   ```
+---
+
+### Compile the React App and Move Files
+
+- If you're using PowerShell in the VS Code Terminal, start by running:
+
+```bash
+  npm run build
+
+- Once the build process finishes, transfer the compiled files to the `staticfiles` directory with:
+
+```bash
+mv build ../staticfiles/
+```
+
+- For other terminal environments, you can run this combined command:
+
+```bash
+npm run build && mv build ../staticfiles/.
+```
+---
+
+### Updating Static Files During Deployment
+
+Whenever you want to deploy changes to your static assets (including updates to the React app), you need to rebuild and replace the existing files.
+
+To remove the old build and replace it with a new one:
+
+- **If using PowerShell**, run these commands one by one, making sure each finishes before starting the next:
+
+```bash
+  npm run build
+  rm "../staticfiles/build" -Recurse -Force
+  mv build ../staticfiles/.
+  ```
+- For other terminals, use this one-liner command:
+
+```bash
+  npm run build && rm -rf ../staticfiles/build && mv build ../staticfiles/
+  ```
+
+
+---
+
+### Adding a `runtime.txt` File
+
+This file tells Heroku which Python version to use when deploying your project.
+
+1. In your project’s root directory, create a new file called `runtime.txt`.
+
+2. Inside the `runtime.txt` file, add the following line:
+
+```bash
+python-3.12.8 
+ ```
+
+---
+
+### Switching from `psycopg2-binary` to `psycopg2`
+
+When you last ran `pip freeze` to update your `requirements.txt`, it probably included `psycopg2-binary`, which is suitable for development but not recommended for production. Before your final GitHub push for deployment, make sure to replace it with the production-ready `psycopg2`.
+
+- Open your `requirements.txt` file and locate the line:
+
+```bash
+psycopg2-binary==2.x.x
+```
+
+- Edit this line by removing the `-binary` suffix so it becomes:
+
+```bash 
+psycopg2==2.x.x
+ ```
+
+- Now that everything is set up, let's check that both parts of the project run together on the same server port.
+
+1. Stop any running servers by pressing **Ctrl + C** in any open terminal window.
+
+2. Open your `env.py` file and verify that the `DEBUG` and `DEV` environment variables are commented out.
+
+
+3. Launch the Django server by executing the following command in the terminal:
+
+```bash
+python3 manage.py runserver
+```
+
+4.	To verify your application is running, open the browser by Ctrl + click (Windows) or Cmd + click (MacOS) on the localhost URL displayed in the terminal.
+
+> **Note:** The React development server must **not** be running at this stage. This step ensures that Django is properly serving the React static files.
+
+5. After verifying everything works as expected, make sure to commit and push your changes. Your project is now prepared for deployment to Heroku.
+
+---
+
+### Update Heroku Config Vars for Combined Deployment
+
+1. Log in to your Heroku account and open the dashboard for your DRF application.
+
+2. Go to the **Settings** tab and find the **Config Vars** section.
+
+3. Check that your application includes an `ALLOWED_HOST` key set to the URL of your combined project. Make sure to omit the `https://` prefix and remove any trailing slash `/` at the end.
+
+4. Make sure your application includes a `CLIENT_ORIGIN` key configured with the full URL of your combined project. This time, **keep** the `https://` prefix, but **do not** add a trailing slash.
+
+5. If you had previously configured `CLIENT_ORIGIN` for a separately deployed React frontend on Heroku, update this value to point to the URL of the unified project.
+
+6. If there is a `CLIENT_ORIGIN_DEV` variable still present, remove it by clicking the **“X”** next to it.
+
+7. Review all configuration values to ensure everything is properly set, including those specified in the Deployment section of the Django REST Framework module. Be sure to save, commit, and push any updates to your codebase.
+
+8. Use the **Deploy** tab in your Heroku dashboard to launch your application.
+
+9. **Congratulations!** Your combined app is now set up and ready for production!
+
+---
+
 
 ## Credits
 
