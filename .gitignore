@@ -19,8 +19,6 @@
 .env.production.local
 env.py
 
-# static
-/static/
 # misc
 .DS_Store
 
