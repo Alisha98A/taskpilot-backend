@@ -146,8 +146,9 @@ The landing page serves as the user's first impression of the app. It features a
 
 Key call-to-action buttons such as **"Sign Up"** and **"Sign In"** are clearly displayed, guiding both new and returning users to the next step. The minimalist design ensures the focus remains on user actions and benefits.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_homepage.png" alt="Homepage" width="600" />
-
+</p>
 ---
 
 This page is fully responsive and optimized for both desktop and mobile users, ensuring accessibility and a smooth user experience from the first interaction.
@@ -163,16 +164,18 @@ The application includes secure user authentication, enabling each user to regis
 
 Returning users can log in through a clean and intuitive login form. Credentials are verified against the backend API, and upon success, the user session is stored using JWT. Invalid logins are handled with appropriate feedback messages.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_signin.png" alt="Sign In" width="600" />
-
+</p>
 ---
 
 #### Sign Up
 
 New users can create an account by providing basic details such as username, email, and password. Input validation ensures data integrity before account creation. Upon successful registration, users are directed to the sign-in page or logged in automatically depending on flow.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_signup.png" alt="Sign Up" width="600" />
-
+</p>
 ---
 
 This authentication system is tightly integrated with the frontend and backend to provide protected routes, personalized dashboards, and secure access to user-specific content.
@@ -181,7 +184,9 @@ This authentication system is tightly integrated with the frontend and backend t
 
 Once logged in, users land on a dashboard that summarizes their current tasks, deadlines, and priorities at a glance. This overview helps users stay organized and focused on what matters most.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_dashboard.png" alt="Dashboard" width="600" />
+</p>
 
 ---
 ### Task CRUD Functionality
@@ -194,32 +199,36 @@ The app provides comprehensive task management tools. Users can create, view, up
 
 All tasks are displayed in a clean, scrollable list format. Each task entry shows key information like the title, category, priority, and status, helping users quickly assess what needs attention.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_tasklist.png" alt="Task List" width="600" />
-
+</p>
 ---
 
 #### Filtering and Sorting Tasks
 
 Users can filter tasks by category (e.g., Work, Personal), search by title or description, and sort by due date or priority. This enhances usability for users managing many tasks.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_filter.png" alt="Filtering" width="600" />
-
+</p>
 ---
 
 #### Create a New Task
 
 The task creation form allows users to input details like the task title, description, due date, category, and priority level. Validation ensures all required fields are completed correctly.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_createtask.png" alt="Create task" width="600" />
-
+</p>
 ---
 
 #### Edit an Existing Task
 
 Users can update existing tasks to reflect changes in plans or progress. They can adjust the title, content, due date, priority, category, and state of the task (e.g., mark as done or in progress).
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_edittask.png" alt="Edit task" width="600" />
-
+</p>
 ---
 
 These task features are built with full CRUD (Create, Read, Update, Delete) capabilities, allowing users to maintain a structured and personalized task management system tailored to their workflow.
@@ -236,16 +245,18 @@ The app allows users to manage personal notes alongside their tasks, offering a 
 
 Authenticated users can access a dedicated notes page showing a list of all personal notes. Each entry displays a preview of the note title, the associated task (if any), and the date it was created or updated.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_noteslist.png" alt="Note list" width="600" />
-
+</p>
 ---
 
 #### Notes Shown Within Task Detail
 
 If a task is associated with a note, it will appear directly on the task detail page. This improves workflow by keeping task-related thoughts and information in one place.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_notesontask.png" alt="Notes on task detail" width="600" />
-
+</p>
 
 ---
 
@@ -253,8 +264,9 @@ If a task is associated with a note, it will appear directly on the task detail 
 
 Clicking on a note shows the full content in a clean and readable format. This page is designed to focus attention on the note content without distractions.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_notedetail.png" alt="Note detail" width="600" />
-
+</p>
 
 ---
 
@@ -262,8 +274,9 @@ Clicking on a note shows the full content in a clean and readable format. This p
 
 Users can create new notes by clicking the "Add Note" button. The form allows input of a title, content, and an optional link to a task. This flexibility supports both general and task-specific note-taking.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_addnote.png" alt="Add note" width="600" />
-
+</p>
 
 ---
 
@@ -271,17 +284,18 @@ Users can create new notes by clicking the "Add Note" button. The form allows in
 
 Users can edit the title, content, or task association of any existing note. This is helpful for updating information as plans or thoughts change.
 
-
+<p align="center">
 <img src="documentation/testing/readme_images/doc_editnote.png" alt="Edit note" width="600" />
-
+</p>
 ---
 
 #### Delete a Note
 
 Notes that are no longer needed can be permanently deleted. A confirmation prompt ensures that users don’t delete notes by accident.
 
+<p align="center">
 <img src="documentation/testing/readme_images/doc_deletenote.png" alt="Delete note" width="600" />
-
+</p>
 
 ---
 
@@ -463,7 +477,7 @@ Although the file attachment functionality was ultimately excluded from the fini
   };
   ```
 
-  <details>
+  </details>
 
 ---
 
