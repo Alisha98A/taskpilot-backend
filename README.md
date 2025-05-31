@@ -140,39 +140,156 @@ TaskPilot is a personal productivity web application built with Django and React
 - Combined deployment where the React frontend build is served directly from the Django backend  
 
 ---
+###  Landing Page with Hero Image
 
-### Landing Page with Hero Image
+The landing page serves as the user's first impression of the app. It features a clean and modern layout with a prominent **hero image** that visually communicates the purpose of the platform — helping users stay organized with tasks and notes.
 
-The landing page features a large, eye-catching hero image that welcomes users and introduces the app’s core purpose. It provides clear call-to-actions such as registration and login buttons to guide new and returning users.
+Key call-to-action buttons such as **"Sign Up"** and **"Sign In"** are clearly displayed, guiding both new and returning users to the next step. The minimalist design ensures the focus remains on user actions and benefits.
+
+<img src="documentation/testing/readme_images/doc_homepage.png" alt="Homepage" width="600" />
+
+---
+
+This page is fully responsive and optimized for both desktop and mobile users, ensuring accessibility and a smooth user experience from the first interaction.
+
 
 ### Registration and Login
 
-Users can securely register new accounts and log in to access personalized features. The authentication system uses JWT tokens to maintain sessions and protect user data.
+The application includes secure user authentication, enabling each user to register their own account and access personalized features such as task and note management. Authentication is handled using **JWT (JSON Web Tokens)** to protect user sessions and ensure secure communication with the backend.
+
+---
+
+#### Sign In
+
+Returning users can log in through a clean and intuitive login form. Credentials are verified against the backend API, and upon success, the user session is stored using JWT. Invalid logins are handled with appropriate feedback messages.
+
+<img src="documentation/testing/readme_images/doc_signin.png" alt="Sign In" width="600" />
+
+---
+
+#### Sign Up
+
+New users can create an account by providing basic details such as username, email, and password. Input validation ensures data integrity before account creation. Upon successful registration, users are directed to the sign-in page or logged in automatically depending on flow.
+
+<img src="documentation/testing/readme_images/doc_signup.png" alt="Sign Up" width="600" />
+
+---
+
+This authentication system is tightly integrated with the frontend and backend to provide protected routes, personalized dashboards, and secure access to user-specific content.
 
 ### Dashboard with Task Overview
 
 Once logged in, users land on a dashboard that summarizes their current tasks, deadlines, and priorities at a glance. This overview helps users stay organized and focused on what matters most.
 
+<img src="documentation/testing/readme_images/doc_dashboard.png" alt="Dashboard" width="600" />
+
+---
 ### Task CRUD Functionality
 
-Users have full control over their tasks, including creating new tasks, viewing task details, updating information such as status and due date, and deleting completed or unwanted tasks. Task categories and priorities can also be managed for better organization.
+The app provides comprehensive task management tools. Users can create, view, update, and delete tasks with full control over how tasks are organized, prioritized, and displayed. Tasks can include due dates, category labels, and status indicators such as "open," "in progress," or "done." This functionality ensures users can plan effectively and stay on top of their responsibilities.
+
+---
+
+#### Task List View
+
+All tasks are displayed in a clean, scrollable list format. Each task entry shows key information like the title, category, priority, and status, helping users quickly assess what needs attention.
+
+<img src="documentation/testing/readme_images/doc_tasklist.png" alt="Task List" width="600" />
+
+---
+
+#### Filtering and Sorting Tasks
+
+Users can filter tasks by category (e.g., Work, Personal), search by title or description, and sort by due date or priority. This enhances usability for users managing many tasks.
+
+<img src="documentation/testing/readme_images/doc_filter.png" alt="Filtering" width="600" />
+
+---
+
+#### Create a New Task
+
+The task creation form allows users to input details like the task title, description, due date, category, and priority level. Validation ensures all required fields are completed correctly.
+
+<img src="documentation/testing/readme_images/doc_createtask.png" alt="Create task" width="600" />
+
+---
+
+#### Edit an Existing Task
+
+Users can update existing tasks to reflect changes in plans or progress. They can adjust the title, content, due date, priority, category, and state of the task (e.g., mark as done or in progress).
+
+<img src="documentation/testing/readme_images/doc_edittask.png" alt="Edit task" width="600" />
+
+---
+
+These task features are built with full CRUD (Create, Read, Update, Delete) capabilities, allowing users to maintain a structured and personalized task management system tailored to their workflow.
+
 
 ### Note CRUD Functionality
 
-The app allows users to manage personal notes alongside their tasks. Users can add new notes, edit existing ones, view detailed content, and delete notes when no longer needed, providing a flexible workspace.
+The app allows users to manage personal notes alongside their tasks, offering a flexible workspace to capture ideas, reminders, or detailed information. Each note can be created, viewed, edited, or deleted. The notes are tied to the user and optionally linked to specific tasks, making it easy to organize thoughts in the context of work or planning.
 
-### User Profile Management
+---
 
-Users can view and update their profile information, such as username, email, and other personal details, ensuring their account is up-to-date and secure.
+#### Notes List
 
-### Notifications and Alerts
 
-The application provides timely notifications and alerts for important events, such as upcoming deadlines or changes to tasks, keeping users informed and engaged.
+Authenticated users can access a dedicated notes page showing a list of all personal notes. Each entry displays a preview of the note title, the associated task (if any), and the date it was created or updated.
+
+<img src="documentation/testing/readme_images/doc_noteslist.png" alt="Note list" width="600" />
+
+---
+
+#### Notes Shown Within Task Detail
+
+If a task is associated with a note, it will appear directly on the task detail page. This improves workflow by keeping task-related thoughts and information in one place.
+
+<img src="documentation/testing/readme_images/doc_notesontask.png" alt="Notes on task detail" width="600" />
+
+
+---
+
+####  Note Detail View
+
+Clicking on a note shows the full content in a clean and readable format. This page is designed to focus attention on the note content without distractions.
+
+<img src="documentation/testing/readme_images/doc_notedetail.png" alt="Note detail" width="600" />
+
+
+---
+
+#### Add a New Note
+
+Users can create new notes by clicking the "Add Note" button. The form allows input of a title, content, and an optional link to a task. This flexibility supports both general and task-specific note-taking.
+
+<img src="documentation/testing/readme_images/doc_addnote.png" alt="Add note" width="600" />
+
+
+---
+
+####  Edit an Existing Note
+
+Users can edit the title, content, or task association of any existing note. This is helpful for updating information as plans or thoughts change.
+
+
+<img src="documentation/testing/readme_images/doc_editnote.png" alt="Edit note" width="600" />
+
+---
+
+#### Delete a Note
+
+Notes that are no longer needed can be permanently deleted. A confirmation prompt ensures that users don’t delete notes by accident.
+
+<img src="documentation/testing/readme_images/doc_deletenote.png" alt="Delete note" width="600" />
+
+
+---
+
+Together, these features provide a full suite of CRUD (Create, Read, Update, Delete) functionality for managing notes, helping users stay organized and productive.
 
 ### Responsive Design and Accessibility
 
 The UI is designed to be fully responsive, adapting smoothly to different screen sizes from desktops to mobile devices. Accessibility best practices are followed to ensure the app is usable by people with various abilities.
-
 
 
 ---
@@ -344,14 +461,15 @@ Although the file attachment functionality was ultimately excluded from the fini
       groupTasks,
     };
   };
+  ```
 
-  </details>
+  <details>
 
 ---
 
 ### Context API
 
-<details>
+  <details>
   <summary><strong>Context API (click to expand)</strong></summary>
 
   This project uses the React Context API to manage user authentication state globally. The `CurrentUserProvider` component fetches the current authenticated user on app load, tracks loading status, and handles automatic redirects on unauthorized API responses.
@@ -438,6 +556,8 @@ Although the file attachment functionality was ultimately excluded from the fini
       </CurrentUserContext.Provider>
     );
   };
+
+  ```
 
   </details>
 
@@ -545,7 +665,7 @@ Although the file attachment functionality was ultimately excluded from the fini
   }
 
   export default App;
-
+  ```
 
   </details>
 
@@ -580,6 +700,7 @@ Although the file attachment functionality was ultimately excluded from the fini
   }
 
   export default PrivateRoute;
+  ```
 
   </details>
 
