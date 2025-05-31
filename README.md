@@ -160,24 +160,49 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ---
 
-## Frameworks, libraries and dependencies
+## Frameworks, Libraries, and Dependencies
 
-- **Frontend:** React, React-Bootstrap, Axios
-- **Backend:** Django, Django REST Framework, dj-rest-auth, SimpleJWT
-- **Auth:** JWT-based authentication
-- **Deployment:** Heroku (backend + frontend build)
+- **Frontend:** React, React-Bootstrap, Axios  
+- **Backend:** Django, Django REST Framework, dj-rest-auth, SimpleJWT  
+- **Authentication:** JWT-based authentication  
+- **Deployment:** Heroku (hosting backend and frontend build)
 
 ### React
 
+React is the core JavaScript library used for building the user interface. It enables the creation of reusable UI components and manages the application state efficiently.
+
 ### React Router DOM
+
+React Router DOM is used for client-side routing, allowing navigation between different components and views without full page reloads. It manages the routing logic, including protected/private routes.
 
 ### Axios
 
+Axios is a promise-based HTTP client used for making API requests from the React frontend to the Django REST API backend. It simplifies sending asynchronous requests and handling responses.
+
 ### Django REST Framework
+
+Django REST Framework (DRF) is the backend toolkit that powers the API. It provides tools for serialization, authentication, permissions, and routing to create a RESTful API in Django.
 
 ### Bootstrap
 
-### Other dependencies
+Bootstrap (via React-Bootstrap) is used for responsive and consistent UI styling. It offers prebuilt components and grid layouts that help build mobile-friendly and accessible user interfaces.
+
+### Other Dependencies
+
+Additional libraries and tools include:
+
+- **dj-rest-auth** for handling authentication workflows like login, logout, password reset  
+- **SimpleJWT** for JWT authentication tokens management  
+- **Cloudinary** for cloud-based media storage and management 
+- Various utility libraries to assist with form validation, date handling, and state management
+
+### Project Development Notes
+
+At the start of the project, I integrated **Cloudinary** to enable file attachments within the app. This included setting up Cloudinary for media storage and adding file upload functionality to relevant components.
+
+However, during the final stages of development and testing, I decided to remove the file attachment feature. This decision was based on factors such as simplifying the user experience, reducing complexity, or project scope adjustments.
+
+Although the file attachment functionality was ultimately excluded from the finished product, the initial setup with Cloudinary remains as a foundation in case it is needed for future enhancements.
 
 ---
 
@@ -185,9 +210,358 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ### Custom hooks
 
+<details>
+  <summary><strong>Custom Hook: useTasks (click to expand)</strong></summary>
+
+  To keep components clean and promote reusability, a custom React hook called `useTasks` was created. This hook centralizes all logic related to managing tasks, including data fetching, state updates, filtering, and grouping.
+
+  The `useTasks` hook handles the following:
+
+  - Fetching all tasks from the backend API upon component mount
+  - Storing the full list of tasks and available categories in state
+  - Deleting tasks from both the backend and frontend state
+  - Updating a task's state (e.g., from "open" to "done")
+  - Filtering and sorting tasks by category, search term, due date, and priority
+  - Grouping tasks into "Today", "This Week", and "Later" based on due dates
+
+  **Example: `useTasks.js`**
+
+  ```js
+  import { useEffect, useState } from "react";
+  import { axiosReq } from "../api/axiosDefaults";
+
+  export const useTasks = () => {
+    const [tasks, setTasks] = useState([]);
+    const [categories, setCategories] = useState([]);
+
+    useEffect(() => {
+      const fetchTasks = async () => {
+        try {
+          const res = await axiosReq.get("/api/tasks/");
+          const taskData = res.data.results;
+          setTasks(taskData);
+          setCategories(["all", ...new Set(taskData.map((t) => t.category))]);
+        } catch (err) {
+          console.error("Error fetching tasks:", err);
+        }
+      };
+      fetchTasks();
+    }, []);
+
+    const deleteTask = async (id) => {
+      if (window.confirm("Are you sure you want to delete this task?")) {
+        try {
+          await axiosReq.delete(`/api/tasks/${id}/`);
+          setTasks((prev) => prev.filter((t) => t.id !== id));
+        } catch (err) {
+          console.error("Error deleting task:", err);
+        }
+      }
+    };
+
+    const updateTaskState = async (task, newState) => {
+      try {
+        const isoDueDate = new Date(task.due_date).toISOString();
+        await axiosReq.put(`/api/tasks/${task.id}/`, {
+          ...task,
+          due_date: isoDueDate,
+          state: newState,
+        });
+        setTasks((prev) =>
+          prev.map((t) => (t.id === task.id ? { ...t, state: newState } : t))
+        );
+      } catch (err) {
+        console.error("Error updating task state:", err);
+      }
+    };
+
+    const filterAndSortTasks = ({ selectedCategory, searchTerm, sortBy }) => {
+      return tasks
+        .filter((task) =>
+          selectedCategory === "all" ? true : task.category === selectedCategory
+        )
+        .filter((task) =>
+          `${task.title} ${task.description}`
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())
+        )
+        .sort((a, b) => {
+          if (sortBy === "due_date") {
+            return new Date(a.due_date) - new Date(b.due_date);
+          }
+          const priorityRank = { high: 1, medium: 2, low: 3 };
+          return priorityRank[a.priority] - priorityRank[b.priority];
+        });
+    };
+
+    const groupTasks = (taskList) => {
+      const today = new Date();
+      const endOfWeek = new Date();
+      endOfWeek.setDate(today.getDate() + 7);
+
+      const todayTasks = [];
+      const weekTasks = [];
+      const laterTasks = [];
+
+      taskList.forEach((task) => {
+        const due = new Date(task.due_date);
+        if (due.toDateString() === today.toDateString()) {
+          todayTasks.push(task);
+        } else if (due <= endOfWeek) {
+          weekTasks.push(task);
+        } else {
+          laterTasks.push(task);
+        }
+      });
+
+      return { todayTasks, weekTasks, laterTasks };
+    };
+
+    return {
+      tasks,
+      setTasks,
+      categories,
+      deleteTask,
+      updateTaskState,
+      filterAndSortTasks,
+      groupTasks,
+    };
+  };
+
+</details>
+```
+
 ### Context API
+<details>
+  <summary><strong>Context API (click to expand)</strong></summary>
+
+  This project uses the React Context API to manage user authentication state globally. The `CurrentUserProvider` component fetches the current authenticated user on app load, tracks loading status, and handles automatic redirects on unauthorized API responses.
+
+  Multiple contexts are created to provide both the current user data, a setter function to update the user, and a loading flag indicating when the user data is ready.
+
+  Custom hooks make accessing these contexts easier throughout the app:
+  - `useCurrentUser` — access the current user object
+  - `useSetCurrentUser` — update the current user state
+  - `useUserLoaded` — check if user data has finished loading
+
+  **Example: `CurrentUserContext.js`**
+
+  ```jsx
+  import { createContext, useContext, useEffect, useState } from "react";
+  import { useHistory } from "react-router-dom";
+  import { axiosReq, axiosRes } from "../api/axiosDefaults";
+
+  // Create contexts
+  export const CurrentUserContext = createContext();
+  export const SetCurrentUserContext = createContext();
+  export const UserLoadedContext = createContext();
+
+  // Custom hooks for easier usage
+  export const useCurrentUser = () => useContext(CurrentUserContext);
+  export const useSetCurrentUser = () => useContext(SetCurrentUserContext);
+  export const useUserLoaded = () => useContext(UserLoadedContext);
+
+  export const CurrentUserProvider = ({ children }) => {
+    const [currentUser, setCurrentUser] = useState(null);
+    const [userLoaded, setUserLoaded] = useState(false);
+    const history = useHistory();
+
+    // Fetch current user when app loads
+    useEffect(() => {
+      const handleMount = async () => {
+        try {
+          const { data } = await axiosReq.get("/api/dj-rest-auth/user/");
+          setCurrentUser(data);
+        } catch (err) {
+          setCurrentUser(null);
+        } finally {
+          setUserLoaded(true);
+        }
+      };
+      handleMount();
+    }, []);
+
+    // Setup Axios interceptors to handle 401 errors globally
+    useEffect(() => {
+      const requestInterceptor = axiosReq.interceptors.request.use(
+        (config) => config,
+        (error) => Promise.reject(error)
+      );
+
+      const responseInterceptor = axiosRes.interceptors.response.use(
+        (response) => response,
+        (error) => {
+          if (
+            error.response?.status === 401 &&
+            history.location.pathname !== "/signin"
+          ) {
+            setCurrentUser(null);
+            history.push("/signin");
+          }
+          return Promise.reject(error);
+        }
+      );
+
+      // Cleanup interceptors on unmount
+      return () => {
+        axiosReq.interceptors.request.eject(requestInterceptor);
+        axiosRes.interceptors.response.eject(responseInterceptor);
+      };
+    }, [history]);
+
+    return (
+      <CurrentUserContext.Provider value={currentUser}>
+        <SetCurrentUserContext.Provider value={setCurrentUser}>
+          <UserLoadedContext.Provider value={userLoaded}>
+            {children}
+          </UserLoadedContext.Provider>
+        </SetCurrentUserContext.Provider>
+      </CurrentUserContext.Provider>
+    );
+  };
+
+</details>
+```
 
 ### Private routes and authentication
+
+<details>
+  <summary><strong>Private Routes and Authentication (click to expand)</strong></summary>
+
+  Private routes are used to restrict access to specific pages based on whether a user is authenticated. If a user is not logged in, they are redirected to the login page, protecting sensitive or user-specific parts of the app.
+
+  This project uses a custom `PrivateRoute` component to enforce these restrictions within a React Router setup.
+
+  **Example: App routing setup with private routes**
+
+  ```jsx
+  import { useEffect } from "react";
+  import { Route, Switch, useLocation } from "react-router-dom";
+  import Container from "react-bootstrap/Container";
+  import styles from "./App.module.css";
+
+  import NavBar from "./components/NavBar";
+  import PrivateRoute from "./components/PrivateRoute";
+
+  import "./api/axiosDefaults";
+
+  // Pages
+  import WelcomePage from "./pages/home/WelcomePage";
+  import Dashboard from "./pages/home/Dashboard";
+  import SignUpForm from "./pages/auth/SignUpForm";
+  import SignInForm from "./pages/auth/SignInForm";
+
+  // Task Pages
+  import TaskList from "./pages/tasks/TaskList";
+  import TaskDetail from "./pages/tasks/TaskDetail";
+  import TaskCreate from "./pages/tasks/TaskCreate.js";
+  import TaskEdit from "./pages/tasks/TaskEdit";
+
+  // Note Pages
+  import NoteList from "./pages/notes/NoteList";
+  import NoteDetail from "./pages/notes/NoteDetail";
+  import NoteCreate from "./pages/notes/NoteCreate.js";
+  import NoteEdit from "./pages/notes/NoteEdit";
+  import NoteDelete from "./pages/notes/NoteDelete";
+
+  // Contact Page
+  import ContactForm from "./pages/contact/ContactForm";
+
+  // Context
+  import { useUserLoaded } from "./contexts/CurrentUserContext";
+
+  function App() {
+    const location = useLocation();
+    const userLoaded = useUserLoaded();
+
+    useEffect(() => {
+      document.body.classList.toggle("no-scroll", location.pathname === "/");
+    }, [location.pathname]);
+
+    if (!userLoaded) return null;
+
+    return (
+      <div className={styles.App}>
+        <NavBar />
+
+        {location.pathname === "/" ? (
+          <WelcomePage />
+        ) : (
+          <Container className={styles.Main}>
+            <Switch>
+              {/* Home */}
+              <Route exact path="/" component={WelcomePage} />
+
+              {/* Dashboard */}
+              <PrivateRoute exact path="/dashboard" component={Dashboard} />
+
+              {/* Tasks */}
+              <PrivateRoute exact path="/tasks" component={TaskList} />
+              <PrivateRoute exact path="/tasks/create" component={TaskCreate} />
+              <PrivateRoute exact path="/tasks/:id" component={TaskDetail} />
+              <PrivateRoute exact path="/tasks/:id/edit" component={TaskEdit} />
+
+              {/* Notes */}
+              <PrivateRoute exact path="/notes" component={NoteList} />
+              <PrivateRoute exact path="/notes/create" component={NoteCreate} />
+              <PrivateRoute exact path="/notes/:id" component={NoteDetail} />
+              <PrivateRoute exact path="/notes/:id/edit" component={NoteEdit} />
+              <PrivateRoute exact path="/notes/:id/delete" component={NoteDelete} />
+
+              {/* Contact */}
+              <PrivateRoute exact path="/contact" component={ContactForm} />
+
+              {/* Auth */}
+              <Route exact path="/signin" component={SignInForm} />
+              <Route exact path="/signup" component={SignUpForm} />
+
+              {/* Fallback */}
+              <Route render={() => <p>Page not found!</p>} />
+            </Switch>
+          </Container>
+        )}
+      </div>
+    );
+  }
+
+  export default App;
+
+</details>
+```
+
+
+
+<details>
+  <summary><strong>PrivateRoute Component (click to expand)</strong></summary>
+
+  The `PrivateRoute` component protects routes that require the user to be authenticated. It checks if there is a current user available via context, and if not, redirects the user to the sign-in page.
+
+  This component wraps the standard React Router `Route` and conditionally renders either the requested component or a redirect.
+
+  **Example: `PrivateRoute.js`**
+
+  ```jsx
+  import React from "react";
+  import { Route, Redirect } from "react-router-dom";
+  import { useCurrentUser } from "../contexts/CurrentUserContext";
+
+  function PrivateRoute({ component: Component, ...rest }) {
+    const currentUser = useCurrentUser();
+
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          currentUser ? <Component {...props} /> : <Redirect to="/signin" />
+        }
+      />
+    );
+  }
+
+  export default PrivateRoute;
+
+</details>
+```
 
 ---
 
@@ -219,17 +593,13 @@ Chrome extension used to simulate how people with disabilities experience the si
 
 ## Testing
 
-### Manual testing
-
-### Automated testing
-
-### Validator testing
+All testing instructions and details are documented separately in the [`TESTING.md`](https://github.com/Alisha98A/taskpilot-backend/blob/main/TESTING.md) file.  
+Please refer to that file for comprehensive guidance on how to run, write, and understand the tests used in this project.
 
 ---
 
 ## Deployment
 
----
 
 ### Initial Setup (for Django Backend Application)
 
