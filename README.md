@@ -227,7 +227,7 @@ Although the file attachment functionality was ultimately excluded from the fini
 
 ### Custom hooks
 
-<details>
+  <details>
   <summary><strong>Custom Hook: useTasks (click to expand)</strong></summary>
 
   To keep components clean and promote reusability, a custom React hook called `useTasks` was created. This hook centralizes all logic related to managing tasks, including data fetching, state updates, filtering, and grouping.
