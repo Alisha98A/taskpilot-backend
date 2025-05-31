@@ -345,8 +345,8 @@ Although the file attachment functionality was ultimately excluded from the fini
     };
   };
 
-</details>
-```
+  </details>
+
 ---
 
 ### Context API
@@ -439,13 +439,13 @@ Although the file attachment functionality was ultimately excluded from the fini
     );
   };
 
-</details>
-```
+  </details>
+
 ---
 
 ### Private routes and authentication
 
-<details>
+  <details>
   <summary><strong>Private Routes and Authentication (click to expand)</strong></summary>
 
   Private routes are used to restrict access to specific pages based on whether a user is authenticated. If a user is not logged in, they are redirected to the login page, protecting sensitive or user-specific parts of the app.
@@ -547,13 +547,12 @@ Although the file attachment functionality was ultimately excluded from the fini
   export default App;
 
 
-</details>
-```
+  </details>
+
 ---
 
 
-
-<details>
+  <details>
   <summary><strong>PrivateRoute Component (click to expand)</strong></summary>
 
   The `PrivateRoute` component protects routes that require the user to be authenticated. It checks if there is a current user available via context, and if not, redirects the user to the sign-in page.
@@ -582,8 +581,7 @@ Although the file attachment functionality was ultimately excluded from the fini
 
   export default PrivateRoute;
 
-</details>
-```
+  </details>
 
 ---
 
