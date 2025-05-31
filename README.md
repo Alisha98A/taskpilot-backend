@@ -131,32 +131,49 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ## Features
 
-
-- User registration and login
-- Create, update, and delete tasks
-- Add and manage personal notes
-- Contact form for user support
-- Responsive design for mobile and desktop
-- Protected routes based on authentication
-- Combined deployment: React build served from Django
+- User registration and login functionality  
+- Create, update, and delete tasks seamlessly  
+- Add, edit, and manage personal notes  
+- Contact form to reach out for user support  
+- Fully responsive design optimized for both mobile and desktop  
+- Protected routes that restrict access based on user authentication  
+- Combined deployment where the React frontend build is served directly from the Django backend  
 
 ---
 
-### Landing page with hero image
+### Landing Page with Hero Image
 
-### Registration and login
+The landing page features a large, eye-catching hero image that welcomes users and introduces the app’s core purpose. It provides clear call-to-actions such as registration and login buttons to guide new and returning users.
 
-### Dashboard with task overview
+### Registration and Login
 
-### Task CRUD functionality
+Users can securely register new accounts and log in to access personalized features. The authentication system uses JWT tokens to maintain sessions and protect user data.
 
-### Note CRUD functionality
+### Dashboard with Task Overview
 
-### User profile management
+Once logged in, users land on a dashboard that summarizes their current tasks, deadlines, and priorities at a glance. This overview helps users stay organized and focused on what matters most.
 
-### Notifications and alerts
+### Task CRUD Functionality
 
-### Responsive design and accessibility
+Users have full control over their tasks, including creating new tasks, viewing task details, updating information such as status and due date, and deleting completed or unwanted tasks. Task categories and priorities can also be managed for better organization.
+
+### Note CRUD Functionality
+
+The app allows users to manage personal notes alongside their tasks. Users can add new notes, edit existing ones, view detailed content, and delete notes when no longer needed, providing a flexible workspace.
+
+### User Profile Management
+
+Users can view and update their profile information, such as username, email, and other personal details, ensuring their account is up-to-date and secure.
+
+### Notifications and Alerts
+
+The application provides timely notifications and alerts for important events, such as upcoming deadlines or changes to tasks, keeping users informed and engaged.
+
+### Responsive Design and Accessibility
+
+The UI is designed to be fully responsive, adapting smoothly to different screen sizes from desktops to mobile devices. Accessibility best practices are followed to ensure the app is usable by people with various abilities.
+
+
 
 ---
 
@@ -330,8 +347,10 @@ Although the file attachment functionality was ultimately excluded from the fini
 
 </details>
 ```
+---
 
 ### Context API
+
 <details>
   <summary><strong>Context API (click to expand)</strong></summary>
 
@@ -422,6 +441,7 @@ Although the file attachment functionality was ultimately excluded from the fini
 
 </details>
 ```
+---
 
 ### Private routes and authentication
 
@@ -526,8 +546,10 @@ Although the file attachment functionality was ultimately excluded from the fini
 
   export default App;
 
+
 </details>
 ```
+---
 
 
 
