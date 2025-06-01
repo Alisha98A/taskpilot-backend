@@ -128,6 +128,8 @@ _<span style="color: blue;">[Back to Content](#table-of-contents)</span>_
 
 ### CSS
 
+_<span style="color: blue;">[Back to Content](#table-of-contents)</span>_
+
 To ensure the CSS files in the project adhere to web standards and maintain high quality, I used the [W3C CSS Validator](http://jigsaw.w3.org/css-validator/validator) service through an automated approach.
 
 - I created a Node.js script that reads each CSS and CSS module file in the project.
@@ -319,6 +321,8 @@ Now all css is passing the tests
 
 # Bug: Favicon and Static File Path Errors on Deployment
 
+_<span style="color: blue;">[Back to Content](#table-of-contents)</span>_
+
 ## Problem
 
 After deployment, the application displayed **404 Not Found** errors for the following favicon-related files:
@@ -367,3 +371,34 @@ WHITENOISE_ROOT = BASE_DIR / 'staticfiles' / 'build'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 ```
+
+
+## Function Test
+
+<details>
+<summary>Test configuration</summary>
+
+<br>
+
+_<span style="color: blue;">[Back to Content](#table-of-contents)</span>_
+
+**Test Environment**
+
+- **Desktop**:
+  - MacBook Pro M1, 2020
+- **Screen**:
+  - Built-in Retina Display / 2560 x 1600
+- **Mobile**:
+  - iPhone 12
+  - iPhone 16 Pro
+
+**Browser Compatibility**
+
+The site was tested on the following browsers:
+
+- Google Chrome – Version 125.0.6422.60
+- Safari – Version 17.4
+- Mozilla Firefox – Version 126.0
+- Brave Browser - Version 1.79.118
+
+</details>
