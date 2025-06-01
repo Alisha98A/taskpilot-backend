@@ -1,6 +1,26 @@
 
 ## Testing
 
+# Table of Contents
+
+- [Manual Testing](#manual-testing)
+  - [User Stories and Epics](#user-stories-and-epics)
+- [Validator Testing](#validator-testing)
+  - [JSX](#jsx)
+  - [HTML](#html)
+  - [CSS](#css)
+- [Automated Testing](#automated-testing)
+  - [Backend API Automated Testing](#backend-api-automated-testing)
+- [CSS Validation Testing](#css-validation-testing)
+  - [Process](#process)
+  - [How to Run](#how-to-run)
+  - [Outcome](#outcome)
+- [Fix for Deprecated Media Feature Warning](#fix-for-deprecated-media-feature-warning)
+- [Bug: Favicon and Static File Path Errors on Deployment](#bug-favicon-and-static-file-path-errors-on-deployment)
+  - [Problem](#problem)
+  - [Cause](#cause)
+  - [Solution](#solution)
+
 ### Manual testing
 
 <details>
@@ -70,7 +90,14 @@ _<span style="color: blue;">[Back to Content](#table-of-contents)</span>_
 
 ### JSX
 
-I have used jsx-Prettier and ESLint throughout the development to check that my JSX and JavaScript meet the standards for clean code.
+Throughout the development process, I have consistently used **Prettier** and **ESLint** to ensure that the JSX and JavaScript code meets high standards of readability, consistency, and correctness.
+
+- **Prettier** automatically formats the code, enforcing a uniform style such as indentation, line length, quotes, and spacing. This reduces style debates and keeps the codebase clean.
+- **ESLint** statically analyzes the code to catch potential errors, enforce best practices, and maintain coding conventions. It helps detect issues like unused variables, incorrect prop types, and potential runtime errors.
+- The project is configured to run these tools automatically during development, including integration with editors and pre-commit hooks, making it easy to maintain code quality continuously.
+- Using Prettier and ESLint together helps improve developer productivity by providing immediate feedback and ensuring that code adheres to the agreed-upon standards.
+- The setup also includes React-specific linting rules to cover common pitfalls and patterns in React development.
+- This approach contributes to a maintainable, scalable, and bug-minimized frontend codebase.
 
 ### HTML
 
@@ -98,9 +125,20 @@ I validated my HTML pages using the W3 Nu HTML Checker. They came back with no e
 _<span style="color: blue;">[Back to Content](#table-of-contents)</span>_
 
 
+
 ### CSS
 
-This script uses the [W3C CSS Validator](http://jigsaw.w3.org/css-validator/validator) 
+To ensure the CSS files in the project adhere to web standards and maintain high quality, I used the [W3C CSS Validator](http://jigsaw.w3.org/css-validator/validator) service through an automated approach.
+
+- I created a Node.js script that reads each CSS and CSS module file in the project.
+- The script sends the CSS content programmatically to the W3C CSS Validator API using the `css-validator` npm package.
+- Validation results are parsed and logged, clearly showing errors and warnings for each CSS file.
+- To keep the focus on critical issues, I filtered out known vendor-specific warnings and deprecated but necessary browser-specific properties.
+- This process helps catch syntax errors, deprecated properties, and potential compatibility problems early.
+- Fixes were applied where validation errors were found, ensuring the CSS remains clean, standard-compliant, and cross-browser compatible.
+- Running this script is simple and automated, making it easy to maintain CSS quality throughout development.
+
+By integrating this CSS validation into the workflow, the project benefits from a consistent, maintainable stylesheet base that adheres to official CSS specifications.
 
 ### Automated testing
 
@@ -119,14 +157,67 @@ This testing ensures robustness of the API and helps prevent regressions during 
 
 
 ![Backend testing](documentation/testing/testbackend.png)
-
-
-### Validator testing
-
-
 ![Test for validators.py](documentation/testing/test_test_validators_py.png)
 ![Test for models.py](documentation/testing/test_test_models_py.png)
 
+
+## CSS Validation Testing
+
+To ensure the CSS files in the project adhere to web standards and maintain good quality, I performed automated CSS validation using the `css-validator` npm package.
+
+### Process
+
+- Created a Node.js script (`validate-css.js`) that reads all the main CSS and CSS module files.
+- The script sends each CSS file's content to the W3C CSS Validator service via the `css-validator` package.
+- Validation results are logged in the console, highlighting errors and warnings for each file.
+- Warnings related to vendor-specific properties (like `-webkit-scrollbar`), deprecated properties, and browser-specific extensions were filtered out to focus on actionable errors.
+- Fixes were applied for errors found, such as replacing deprecated CSS properties and correcting invalid CSS syntax.
+- This validation helps maintain cross-browser compatibility and ensures the CSS codebase remains clean and standard-compliant.
+
+### How to Run
+
+Run the following command in the project root directory:
+
+```bash
+node validate-css.js
+```
+
+### Outcome
+
+	•	Most CSS files passed validation with no errors.
+	•	Known vendor-specific warnings were intentionally ignored as they are necessary for browser compatibility.
+	•	Necessary fixes were made to ensure no critical validation errors remain.
+
+Fixed warning
+
+## Fix for Deprecated Media Feature Warning
+
+The original CSS used the deprecated media features `min-device-width` and `max-device-width` to target iPhone 16 and other large notch devices in portrait orientation:
+
+```css
+@media screen and (min-device-width: 430px) and (max-device-width: 470px) and (orientation: portrait) {
+```
+
+These media features are deprecated and cause warnings during CSS validation.
+
+What I did to fix it:
+
+	•	Removed the padding-top with the calc(env(safe-area-inset-top, 20px) + 4rem) expression due to compatibility issues and instead set a fixed padding:
+
+```css
+.welcome-hero {
+  padding-top: 4rem;
+  align-items: flex-start;
+}
+```
+
+Before
+![Error](documentation/testing/csserror.png)
+
+After
+![Success](documentation/testing/csspass.png)
+
+Now all css is passing the tests
 
 
 # Bug: Favicon and Static File Path Errors on Deployment
