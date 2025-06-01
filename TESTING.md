@@ -140,6 +140,44 @@ To ensure the CSS files in the project adhere to web standards and maintain high
 
 By integrating this CSS validation into the workflow, the project benefits from a consistent, maintainable stylesheet base that adheres to official CSS specifications.
 
+
+### Python
+
+All Python files in the project were validated and formatted according to the **PEP 8** style guide. This ensures that the code follows the official Python coding standards for readability and consistency.
+
+- The validation was performed using the [PEP8CI](https://pep8ci.herokuapp.com/#) online tool, which checks the code for style violations and provides immediate feedback.
+- Any detected issues were corrected to maintain a clean, uniform codebase free of PEP 8 errors and warnings.
+- This process helps improve code quality, maintainability, and reduces the likelihood of bugs caused by inconsistent formatting.
+- Below is an example screenshot of the admin module after successful validation and cleanup:
+
+<details>
+<summary>Main project directory</summary>  
+<br>
+
+Main project directory
+![permissions.py PEP8 validation](documentation/permissions.png)
+![settings.py PEP8 validation](documentation/doc_settings.png)
+![urls.py.py PEP8 validation](documentation/doc_urlsmain.png)
+![views.py.py PEP8 validation](documentation/doc_viewsmain.png)
+![wsgi.py.py PEP8 validation](documentation/doc_wsg.png)
+
+</details>
+
+
+<details>
+<summary>App directory</summary>  
+<br>
+
+![admin.pyPEP8 validation](documentation/admin.png)
+![apps.py PEP8 validation](documentation/apps.png)
+![models.py PEP8 validation](documentation/models.png)
+![serializers.py PEP8 validation](documentation/serializer.png)
+![urls.py PEP8 validation](documentation/urls.png)
+![validators.py PEP8 validation](documentation/validator.png)
+
+</details>
+
+
 ### Automated testing
 
 
@@ -215,7 +253,7 @@ Before
 ![Error](documentation/testing/csserror.png)
 
 After
-![Success](documentation/testing/csspass.png)
+![Success](documentation/csssucess.png)
 
 Now all css is passing the tests
 
