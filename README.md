@@ -149,9 +149,6 @@ TaskPilot is a personal productivity web application built with Django and React
 - **As an unauthorized user**, I should be denied access to other users’ content, to maintain data integrity.  
 - **As an admin**, I want to view all contact messages, while restricting others from doing so.  
 
-### User stories
-
-*(Specific user stories, prioritized)*
 
 ---
 
