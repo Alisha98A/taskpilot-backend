@@ -83,6 +83,23 @@ I validated my HTML pages using the W3 Nu HTML Checker. They came back with no e
 
 ### Automated testing
 
+
+#### Backend API Automated Testing
+
+I implemented comprehensive automated tests for the API endpoints related to the core app functionalities: Tasks, Notes, and Contact messages.
+
+- The tests cover **CRUD operations** (Create, Read, Update, Delete) for tasks and notes, verifying that authenticated users can manage their own data securely.
+- Contact API tests ensure that users can submit messages, and only admin users can list all contact messages, enforcing proper permissions.
+- Authentication is simulated using Django REST Framework’s `APIClient` with forced user authentication to test endpoints in a secure context.
+- Each test verifies both the HTTP response status codes and the changes in the database, confirming that the API behaves as expected.
+- All 11 tests passed successfully, demonstrating that the API endpoints are stable and meet the specified user stories and requirements.
+
+This testing ensures robustness of the API and helps prevent regressions during further development.
+
+
+![Backend testing](documentation/testing/testbackend.png)
+
+
 ### Validator testing
 
 
