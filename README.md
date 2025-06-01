@@ -87,11 +87,67 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ### Themes
 
-*(High-level themes for your project)*
+- Task Management  
+- Note-Taking  
+- User Authentication  
+- Contact & Support  
+- Security & Permissions  
 
-### Epics
+---
 
-*(Major epics breaking down themes)*
+
+### Epics and User Stories
+---
+
+#### Epic 1: Task Management API
+
+> _As a user, I want to manage my tasks efficiently._
+
+- **As a developer**, I want to retrieve a list of all tasks through an API endpoint, so that I can view the details of all tasks in the system.
+- **As a user**, I want to retrieve and update the details of a specific task via the API, So that I can view or make changes to my task when needed.
+- **As an authenticated user**, I want to create and manage notes linked to my tasks, so that I can document progress or add context to each task.
+- **As an authenticated user**, I want tasks to automatically be marked as overdue if they are past the due date.
+- **As an authenticated user**, I want to delete a task I no longer need.  
+---
+
+#### Epic 2: Note System
+
+> _As a user, I want to take and manage notes linked to my tasks._
+
+- **As an authenticated user**, I want to create a note linked to a specific task.  
+- **As an authenticated user**, I want to view all my notes in a list.  
+- **As an authenticated user**, I want to update a note I’ve written.  
+- **As an authenticated user**, I want to delete a note I no longer need.  
+
+---
+
+#### Epic 3: Authentication with dj-rest-auth + JWT
+
+> _As a user, I want secure account handling and session management._
+
+- **As a new user**, I want to register for an account.  
+- **As a returning user**, I want to log in and receive a JWT token.  
+- **As a logged-in user**, I want to log out to end my session.  
+- **As a user**, I want to refresh my JWT token to stay authenticated.  
+
+---
+
+#### Epic 4: Contact and Feedback
+
+> _As a user, I want to contact support for help or feedback._
+
+- **As a user**, I want to submit a message to contact support.  
+- **As an admin**, I want to view all submitted contact messages.  
+
+---
+
+#### Epic 5: Permissions and Security
+
+> _As a user, I want my data to remain private and secure._
+
+- **As an authenticated user**, I want to only see my own tasks and notes, so that my private data is secure.  
+- **As an unauthorized user**, I should be denied access to other users’ content, to maintain data integrity.  
+- **As an admin**, I want to view all contact messages, while restricting others from doing so.  
 
 ### User stories
 
