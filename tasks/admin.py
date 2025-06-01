@@ -4,6 +4,7 @@ from .models import Contact
 
 admin.site.register(Contact)
 
+
 class NoteInline(admin.TabularInline):
     model = Note
     extra = 1
