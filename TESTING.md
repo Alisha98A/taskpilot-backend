@@ -178,6 +178,65 @@ Main project directory
 </details>
 
 
+### Lighthouse
+
+[Lighthouse](https://developer.chrome.com/docs/lighthouse/overview/) is an open-source tool developed by Google that audits web applications for:
+
+- **Performance**: How fast your page loads and becomes interactive.
+- **Accessibility**: Ensures usability for users with disabilities, based on WCAG guidelines.
+- **Best Practices**: Checks for use of modern and secure web development practices.
+- **SEO**: Evaluates how discoverable your app is by search engines.
+
+I used Lighthouse to test multiple pages of the **TaskPilot** application on both **mobile** and **desktop**. This helped identify performance bottlenecks, accessibility improvements, and SEO enhancements.
+
+#### Observations
+
+- The **homepage** results are provided as images below.
+- **Desktop pages** scored consistently well, especially in SEO and Best Practices (96–100).
+- Some **mobile pages** scored lower in **Performance** due to render-blocking scripts, large component trees, or slower time-to-interactive.
+- **Accessibility** remained high across the board, reflecting proper semantic structure and good contrast ratios.
+- **Best Practices** and **SEO** scored highly throughout, ensuring modern code standards and discoverability.
+
+#### Homepage Lighthouse Results
+
+![Homepage Mobile](documentation/doc_homepage_mobile_lighthouse.png)  
+![Homepage Desktop](documentation/doc_homepage_desktop.png)
+
+---
+
+#### Full Lighthouse Test Results
+
+| Page                 | Performance | Accessibility | Best Practices | SEO  |
+|----------------------|-------------|----------------|----------------|------|
+| Home (Mobile)        | 70          | 100            | 96             | 100  |
+| Home (Desktop)       | 94          | 95             | 96             | 100  |
+| Sign In (Mobile)     | 70          | 95             | 96             | 100  |
+| Sign In (Desktop)    | 92          | 95             | 96             | 100  |
+| Sign Up (Mobile)     | 64          | 95             | 96             | 100  |
+| Sign Up (Desktop)    | 92          | 95             | 96             | 100  |
+| Dashboard (Mobile)   | 71          | 100            | 100            | 100  |
+| Dashboard (Desktop)  | 94          | 100            | 100            | 100  |
+| Task List (Mobile)   | 54          | 87             | 100            | 100  |
+| Task List (Desktop)  | 74          | 87             | 100            | 100  |
+| Create Task (Mobile) | 70          | 95             | 100            | 100  |
+| Create Task (Desktop)| 91          | 96             | 100            | 100  |
+| Edit Task (Mobile)   | 70          | 93             | 100            | 100  |
+| Edit Task (Desktop)  | 93          | 94             | 100            | 100  |
+| Note List (Mobile)   | 70          | 96             | 100            | 100  |
+| Note List (Desktop)  | 92          | 96             | 100            | 100  |
+| Note View (Mobile)   | 72          | 95             | 100            | 100  |
+| Note View (Desktop)  | 92          | 95             | 100            | 100  |
+| Note Edit (Mobile)   | 71          | 95             | 100            | 100  |
+| Note Edit (Desktop)  | 94          | 96             | 100            | 100  |
+| Note Delete (Mobile) | 71          | 100            | 100            | 100  |
+| Note Delete (Desktop)| 92          | 100            | 100            | 100  |
+| Contact (Mobile)     | 71          | 95             | 100            | 100  |
+| Contact (Desktop)    | 88          | 95             | 96             | 100  |
+
+---
+
+These tests show that the application is well-optimized for both performance and user experience across devices.
+
 ### Automated testing
 
 
@@ -199,7 +258,7 @@ This testing ensures robustness of the API and helps prevent regressions during 
 ![Test for models.py](documentation/testing/test_test_models_py.png)
 
 
-## CSS Validation Testing
+## CSS Validation Testing (Frontend)
 
 To ensure the CSS files in the project adhere to web standards and maintain good quality, I performed automated CSS validation using the `css-validator` npm package.
 
