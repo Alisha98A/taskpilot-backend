@@ -320,6 +320,7 @@ Now all css is passing the tests
 
 ### Manual testing
 
+#### Navigation
 
 <details>
 
@@ -369,8 +370,9 @@ Now all css is passing the tests
 
 </details>
 
-<details>
+#### Home
 
+<details>
 <summary>Home Page</summary>
 
 <br>
@@ -391,7 +393,10 @@ Now all css is passing the tests
 
 </details>
 
+#### Dashboard for logged in users
+
 <details>
+
 
 <summary>Dashboard</summary>
 
@@ -417,6 +422,7 @@ Now all css is passing the tests
 
 </details>
 
+#### Sign in page
 <details>
 
 <summary>Sign In Form</summary>
@@ -443,6 +449,8 @@ Now all css is passing the tests
 
 <details>
 
+#### Sign Up Page
+
 <summary>Sign Up Form</summary>
 
 <br>
@@ -468,9 +476,9 @@ Now all css is passing the tests
 
 </details>
 
+#### Task (FULL CRUD)
 
 <details>
-
 <summary>Task List</summary>
 
 <br>
@@ -570,8 +578,9 @@ Now all css is passing the tests
 
 </details>
 
-<details>
+##### Task components
 
+<details>
 <summary>TaskForm Component</summary>
 
 <br>
@@ -685,8 +694,9 @@ Now all css is passing the tests
 
 </details>
 
-<details>
+##### Task hook
 
+<details>
 <summary>useTaskForm Hook</summary>
 
 <br>
@@ -717,6 +727,242 @@ Now all css is passing the tests
 | UTK-05    | filterAndSortTasks  | Filter by category/search| Returns filtered and sorted tasks based on parameters    | Pass   | Filters and sorts correctly  |
 | UTK-06    | groupTasks          | Group by due dates       | Groups tasks into today, this week, and later            | Pass   | Groups match expected dates  |
 | UTK-07    | Error handling      | On API errors            | Logs errors to console for fetch, delete, and update     | Pass   | Errors logged appropriately  |
+
+</details>
+
+#### Note pages (FULL CRUD)
+
+<details>
+<summary>NoteList</summary>
+
+<br>
+
+| ID        | Feature           | Action                        | Expected Outcome                                              | Result | Comment                        |
+| --------- | ----------------- | -----------------------------| --------------------------------------------------------------| ------ | ------------------------------|
+| NL-01     | Loading State     | Component mounts and fetches notes | Spinner and loading text displayed                            | Pass   |                                |
+| NL-02     | Error Handling    | Simulate fetch error           | Error alert with message shown                                | Pass   |                                |
+| NL-03     | Empty Notes List  | Notes array empty              | Message "No notes found. Start by adding one!" displayed      | Pass   |                                |
+| NL-04     | Notes Display     | Notes array has items          | Notes rendered as grid of NoteCard components                 | Pass   |                                |
+| NL-05     | Add Note Button   | Click on Add Note              | Navigates to `/notes/create` page                             | Pass   |                                |
+| NL-06     | Header Title      | Page loads                    | Header shows "Notes" with icon                                | Pass   |                                |
+
+</details>
+
+<details>
+
+<summary>NoteEdit</summary>
+
+<br>
+
+| ID        | Feature            | Action                           | Expected Outcome                                      | Result | Comment                        |
+| --------- | ------------------ | --------------------------------| -----------------------------------------------------| ------ | ------------------------------|
+| NE-01     | Page Load          | Navigate to edit note URL        | Page loads with existing note data filled in form    | Pass   |                               |
+| NE-02     | Error Display      | Simulate fetch error             | Error alert with message shown                        | Pass   |                               |
+| NE-03     | Success Message    | Submit valid update              | Success alert shown, redirects to related task       | Pass   |                               |
+| NE-04     | Form Inputs        | Edit task selection and body    | Inputs update with user changes                       | Pass   |                               |
+| NE-05     | Form Submission    | Submit form                     | Calls update API and handles response correctly      | Pass   |                               |
+| NE-06     | API Error Handling | API update fails                 | Error alert shown with appropriate message           | Pass   |                               |
+| NE-07     | Redirect           | After successful update          | Redirects to `/tasks/{taskId}` after brief delay     | Pass   |                               |
+
+</details>
+
+<details>
+
+<summary>NoteDetail</summary>
+
+<br>
+
+| ID        | Feature          | Action                            | Expected Outcome                                      | Result | Comment                        |
+| --------- | ---------------- | -------------------------------- | -----------------------------------------------------| ------ | ------------------------------|
+| ND-01     | Loading State    | Navigate to note detail URL       | Shows loading spinner and message                     | Pass   |                               |
+| ND-02     | Fetch Success    | Load existing note                | Note details displayed correctly                      | Pass   |                               |
+| ND-03     | Fetch Error      | Simulate API error                | Error message displayed                               | Pass   |                               |
+| ND-04     | Note Not Found   | Access non-existent note          | "Note not found" message displayed                     | Pass   |                               |
+| ND-05     | Task Link       |
+</details>
+
+<details>
+
+<summary>NoteCreate</summary>
+
+<br>
+
+| ID         | Feature           | Action                        | Expected Outcome                                   | Result | Comment                      |
+| ---------- | ----------------- | -----------------------------| ------------------------------------------------- | ------ | ---------------------------- |
+| NC-CRE-01  | Load Form         | Navigate to add note page     | NoteForm loads with task options                   | Pass   |                              |
+| NC-CRE-02  | Form Validation   | Submit empty form             | Shows validation error "Both fields are required" | Pass   |                              |
+| NC-CRE-03  | Submit Note       | Fill form and submit          | Note created, success message shown, redirects to task detail page | Pass   |                              |
+| NC-CRE-04  | Submit Failure    | Simulate API failure on submit | Shows error "Failed to create note. Please try again." | Pass   |                              |
+| NC-CRE-05  | Success Message   | Submit note successfully      | Displays success message briefly                    | Pass   |                              |
+
+</details>
+
+<details>
+
+<summary>NoteDelete</summary>
+
+<br>
+
+| ID        | Feature           | Action                          | Expected Outcome                                        | Result | Comment                     |
+| --------- | ----------------- | -------------------------------| -------------------------------------------------------| ------ | ---------------------------|
+| ND-DEL-01| Load Note         | Navigate to delete note URL     | Note data fetched, task ID retrieved                    | Pass   |                             |
+| ND-DEL-02| Fetch Error       | Simulate API failure on load    | Error message "Failed to load note." shown              | Pass   |                             |
+| ND-DEL-03| Delete Note       | Click "Delete" button           | Note deleted, redirects to related task page or notes list | Pass   |                             |
+| ND-DEL-04| Delete Error      | Simulate API failure on delete  | Error message "Failed to delete note." shown            | Pass   |                             |
+| ND-DEL-05| Cancel Button     | Click "Cancel" button           | Navigates back to previous page                          | Pass   |                             |
+
+</details>
+
+<details>
+
+<summary>NoteForm</summary>
+
+<br>
+
+| ID        | Feature            | Action                         | Expected Outcome                                      | Result | Comment                       |
+| --------- | ------------------ | ------------------------------| -----------------------------------------------------| ------ | -----------------------------|
+| NF-01     | Initial Values     | Render with initial props      | Inputs pre-filled with `initialBody` and `initialTask` | Pass   |                               |
+| NF-02     | Task Dropdown      | Open dropdown                 | Shows list of tasks passed via `tasks` prop           | Pass   |                               |
+| NF-03     | Task Selection     | Select a task from dropdown   | `selectedTask` state updates accordingly              | Pass   |                               |
+| NF-04     | Note Body Input    | Type into textarea            | `body` state updates accordingly                       | Pass   |                               |
+| NF-05     | Validation         | Submit without task or body   | Error message "Both fields are required." displayed   | Pass   |                               |
+| NF-06     | Submit Button      | Click submit with valid input | Calls `onSubmit` prop function with correct data      | Pass   |                               |
+| NF-07     | Error Display      | Validation fails              | Error message appears, form submission prevented      | Pass   |                               |
+
+</details>
+
+##### Note custom hooks
+
+<details>
+
+<summary>useNoteForm (custom hook)</summary>
+
+<br>
+
+| ID         | Feature              | Action                          | Expected Outcome                                  | Result | Comment                             |
+|------------|----------------------|---------------------------------|--------------------------------------------------|--------|-----------------------------------|
+| NH-01      | Load Tasks           | Mount component using hook       | Tasks fetched from API and stored in state       | Pass   |                                   |
+| NH-02      | Default Task Select  | Mount with no noteId             | First task in list auto-selected                  | Pass   |                                   |
+| NH-03      | Load Note Data       | Mount with noteId                | Note body and task selected set from API         | Pass   |                                   |
+| NH-04      | Handle Fetch Errors  | Simulate API failure             | Errors state set appropriately                     | Pass   |                                   |
+| NH-05      | Clear Success Message| Success message set              | Success message clears automatically after 2s    | Pass   |                                   |
+
+</details>
+
+<details>
+
+<summary>useNotesList (custom hook)</summary>
+
+<br>
+
+| ID         | Feature            | Action                    | Expected Outcome                                  | Result | Comment                             |
+|------------|--------------------|---------------------------|--------------------------------------------------|--------|-----------------------------------|
+| NL-01      | Fetch Notes        | Mount component using hook | Notes fetched from API and stored in state       | Pass   |                                   |
+| NL-02      | Loading State      | While fetching             | Loading state is true                             | Pass   |                                   |
+| NL-03      | Error Handling     | Simulate API failure       | Error message set and loading is false           | Pass   |                                   |
+| NL-04      | Cleanup            | Unmount component          | Prevent state update on unmounted component      | Pass   | Avoids React warnings              |
+
+</details>
+
+##### Note components
+
+<details>
+<summary>NoteCard</summary>
+
+<br>
+
+| ID        | Feature           | Action                          | Expected Outcome                                                  | Result | Comment                       |
+|-----------|-------------------|---------------------------------|------------------------------------------------------------------|--------|------------------------------|
+| NC-01     | Card Rendering    | Render component with note prop | Displays a card container with proper styling                    | Pass   |                              |
+| NC-02     | Title Display     | Note body longer than 80 chars  | Displays truncated body text with ellipsis                       | Pass   |                              |
+| NC-03     | Title Display     | Note body shorter than 80 chars | Displays full note body                                           | Pass   |                              |
+| NC-04     | Note Link         | Click on note body link          | Navigates to `/notes/{note.id}`                                  | Pass   |                              |
+| NC-05     | Task Link         | Click on associated task link   | Navigates to `/tasks/{note.task.id}`                             | Pass   |                              |
+| NC-06     | Accessibility     | Card has role="article" and tabIndex="0" | Card is focusable and correctly identified by screen readers    | Pass   |                              |
+| NC-07     | Timestamp Display | Displays date_added in locale    | Shows human-readable timestamp with icon                        | Pass   |                              |
+
+</details>
+
+<details>
+
+<summary>NoteCardForTask</summary>
+
+<br>
+
+| ID          | Feature           | Action                  | Expected Outcome                                          | Result | Comment                       |
+|-------------|-------------------|-------------------------|----------------------------------------------------------|--------|------------------------------|
+| NCFT-01     | Card Rendering    | Render component         | Displays a card container with proper styling             | Pass   |                              |
+| NCFT-02     | Note Body Display | Render with note prop    | Displays the full note body text                           | Pass   |                              |
+| NCFT-03     | Timestamp Display | Shows date_added/created_at | Shows human-readable timestamp with icon                | Pass   | Falls back to created_at if date_added missing |
+| NCFT-04     | Accessibility     | Card container present   | Card is rendered semantically and visually clear          | Pass   |                              |
+
+</details>
+
+
+#### Path URL:s & Authentication
+
+<details>
+
+<summary>PrivateRoute</summary>
+
+<br>
+
+| ID         | Feature            | Action                    | Expected Outcome                                    | Result | Comment                    |
+|------------|--------------------|---------------------------|----------------------------------------------------|--------|---------------------------|
+| PR-01      | Route Protection    | Navigate to protected route when logged in  | Allows access to the requested component             | Pass   |                           |
+| PR-02      | Route Protection    | Navigate to protected route when not logged in | Redirects user to `/signin` page                      | Pass   |                           |
+| PR-03      | Props forwarding    | Passes all route props to component          | Component receives route props correctly              | Pass   |                           |
+
+</details>
+
+<details>
+
+<summary>App Routing</summary>
+
+<br>
+
+| ID     | Feature           | Action                        | Expected Outcome                                          | Result | Comment                            |
+|--------|-------------------|-------------------------------|----------------------------------------------------------|--------|----------------------------------|
+| APP-01 | Public Routes     | Visit `/`, `/signin`, `/signup` | Pages load without authentication                         | Pass   |                                  |
+| APP-02 | Private Routes    | Visit protected routes logged in | Access granted and page content rendered                  | Pass   | Tested with authenticated user    |
+| APP-03 | Private Routes    | Visit protected routes not logged in | Redirects to `/signin` page                                | Pass   |                                  |
+| APP-04 | Fallback Route    | Visit undefined route          | Displays "Page not found!" message                        | Pass   |                                  |
+| APP-05 | NavBar Display   | NavBar shows on all pages except `/` | NavBar visible on all except WelcomePage at `/`          | Pass   |                                  |
+| APP-06 | Scroll Lock      | Visit `/` page                 | Body has `no-scroll` class applied                         | Pass   |                                  |
+
+</details>
+
+<details>
+
+<summary>CurrentUserContext</summary>
+
+<br>
+
+| ID       | Feature                        | Action                                            | Expected Outcome                                                                                   | Result | Comment                          |
+| -------- | ------------------------------| -------------------------------------------------| ------------------------------------------------------------------------------------------------- | ------ | ------------------------------- |
+| CUC-01   | Fetch Current User on Load     | Load app                                         | Fetches current user data; sets currentUser or null                                               | Pass   | Tested with logged in and logged out states |
+| CUC-02   | userLoaded state               | Load app                                         | `userLoaded` state becomes true after user fetch attempt                                          | Pass   |                                  |
+| CUC-03   | Axios Request Interceptor      | Make any API request                             | Request interceptor passes config without modification                                            | Pass   |                                  |
+| CUC-04   | Axios Response Interceptor     | API returns 401 when user not on `/signin`      | Clears currentUser state and redirects to `/signin`                                              | Pass   |                                  |
+| CUC-05   | Axios Response Interceptor     | API returns 401 when user already on `/signin`  | Does not redirect                                                                                 | Pass   | Prevents redirect loop            |
+| CUC-06   | Context Providers              | Wrap children components                         | Provides currentUser, setCurrentUser, and userLoaded contexts correctly                            | Pass   |                                  |
+
+</details>
+
+<details>
+
+<summary>CurrentUserContext Hooks</summary>
+
+<br>
+
+| ID        | Hook             | Action                                     | Expected Outcome                                                   | Result | Comment                         |
+| --------- | ---------------- | -----------------------------------------| ----------------------------------------------------------------- | ------ | ------------------------------ |
+| CUCH-01   | useCurrentUser   | Call hook inside a component              | Returns current user object or null                               | Pass   | Verified with logged-in & logged-out users |
+| CUCH-02   | useSetCurrentUser| Call hook inside a component              | Returns function to update currentUser state                      | Pass   | Verified setCurrentUser updates context correctly |
+| CUCH-03   | useUserLoaded    | Call hook before and after user loads     | Returns false initially, then true after user info fetched       | Pass   | Ensures components wait for user loading |
+| CUCH-04   | useCurrentUser   | When currentUser is null                   | Components behave as unauthenticated user (e.g., redirect to signin) | Pass | Confirmed protected routes redirect |
+| CUCH-05   | useSetCurrentUser| Update currentUser state                   | Application UI updates accordingly (e.g., NavBar shows correct links) | Pass | Verified UI updates on login/logout |
+| CUCH-06   | All hooks        | Used outside Provider                      | Throws error or returns undefined (React behavior)               | Pass   | Ensure hooks used only inside provider |
 
 </details>
 
