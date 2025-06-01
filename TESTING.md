@@ -318,6 +318,407 @@ After
 
 Now all css is passing the tests
 
+### Manual testing
+
+
+<details>
+
+<summary>Navigation</summary>
+
+<br>
+
+| ID       | Feature         | Action  | Expected Outcome                                                  | Result | Comment |
+|----------|-----------------|---------|-------------------------------------------------------------------|--------|---------|
+| NAV-M-01 | Logo            | Click   | Redirect to homepage `/`                                          | Pass   |         |
+| NAV-M-02 | Logo            | Focus   | Shows visual focus when tabbed                                    | Pass   |         |
+| NAV-M-03 | Toggler Icon    | Display | Visible only on small screens                                     | Pass   |         |
+| NAV-M-04 | Toggler Icon    | Click   | Opens dropdown with navigation links                              | Pass   |         |
+| NAV-M-05 | Dashboard Link  | Display | Only visible when a user is signed in                             | Pass   |         |
+| NAV-M-06 | Dashboard Link  | Click   | Redirects to `/dashboard`                                         | Pass   |         |
+| NAV-M-07 | Home Link       | Display | Only visible when no user is signed in                            | Pass   |         |
+| NAV-M-08 | Home Link       | Click   | Redirects to homepage `/`                                         | Pass   |         |
+| NAV-M-09 | My Tasks Link   | Display | Only visible when a user is signed in                             | Pass   |         |
+| NAV-M-10 | My Tasks Link   | Click   | Redirects to `/tasks`                                             | Pass   |         |
+| NAV-M-11 | Notes Link      | Display | Only visible when a user is signed in                             | Pass   |         |
+| NAV-M-12 | Notes Link      | Click   | Redirects to `/notes`                                             | Pass   |         |
+| NAV-M-13 | New Task Link   | Display | Only visible when a user is signed in                             | Pass   | Top-right placement verified |
+| NAV-M-14 | New Task Link   | Click   | Redirects to `/tasks/create`                                      | Pass   |         |
+| NAV-M-15 | Sign Out Link   | Display | Only visible when a user is signed in                             | Pass   |         |
+| NAV-M-16 | Sign Out Link   | Click   | Logs out the user and redirects to `/signin`                      | Pass   |         |
+| NAV-M-17 | Sign In Link    | Display | Only visible when no user is signed in                            | Pass   |         |
+| NAV-M-18 | Sign In Link    | Click   | Redirects to `/signin`                                            | Pass   |         |
+| NAV-M-19 | Sign Up Link    | Display | Only visible when no user is signed in                            | Pass   |         |
+| NAV-M-20 | Sign Up Link    | Click   | Redirects to `/signup`                                            | Pass   |         |
+| NAV-M-21 | Active Link     | State   | Current route is highlighted using `.Active` class                | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>useClickOutsideToggle Hook (related to Navbar)</summary>
+
+<br>
+
+| ID        | Feature           | Action                     | Expected Outcome                                     | Result | Comment                     |
+| --------- | ----------------- | -------------------------- | ---------------------------------------------------- | ------ | --------------------------- |
+| UCT-01    | Initial state     | On hook mount              | `expanded` state is initially `false`                | Pass   | Verified initial state       |
+| UCT-02    | Toggle expanded   | Call `setExpanded(true)`   | `expanded` state changes to `true`                   | Pass   | State updates correctly      |
+| UCT-03    | Click outside     | Click outside `ref` element| `expanded` state resets to `false`                    | Pass   | Click outside collapses UI   |
+| UCT-04    | Click inside      | Click inside `ref` element | `expanded` state remains unchanged                    | Pass   | No collapse on internal click|
+| UCT-05    | Event listener    | Mount/unmount              | Adds and removes event listener correctly            | Pass   | No memory leaks or duplicates|
+
+</details>
+
+<details>
+
+<summary>Home Page</summary>
+
+<br>
+
+| ID       | Feature            | Action  | Expected Outcome                                                                 | Result | Comment |
+|----------|--------------------|---------|----------------------------------------------------------------------------------|--------|---------|
+| HOME-M-01 | Page Load         | Open    | Loads welcome page without errors                                               | Pass   |         |
+| HOME-M-02 | Title Text        | Display | Shows "Welcome to TaskPilot" title prominently                                  | Pass   |         |
+| HOME-M-03 | Subtitle Text     | Display | Displays "Chart your course. Navigate your goals." subtitle                     | Pass   |         |
+| HOME-M-04 | Icons             | Display | Icons for task, calendar, and checkmark appear correctly                        | Pass   |         |
+| HOME-M-05 | Description Text  | Display | Informational paragraph about TaskPilot is visible                              | Pass   |         |
+| HOME-M-06 | "Get Started" Btn | Click   | Redirects to `/signup` page                                                     | Pass   |         |
+| HOME-M-07 | "Sign In" Button  | Click   | Redirects to `/signin` page                                                     | Pass   |         |
+| HOME-M-08 | Buttons           | Focus   | Buttons receive visual focus when tabbed                                        | Pass   |         |
+| HOME-M-09 | Responsiveness    | Resize  | Content adjusts and remains readable on mobile and desktop screens              | Pass   | Checked in Chrome DevTools |
+| HOME-M-10 | No User Logged In | Visit   | Does not show links like Dashboard or My Tasks unless signed in                 | Pass   | Verified conditionally displayed in NavBar |
+| HOME-M-11 | Styling           | Display | Page uses consistent padding, spacing, and theming per CSS module               | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>Dashboard</summary>
+
+<br>
+
+| ID       | Feature             | Action  | Expected Outcome                                                       | Result | Comment |
+|----------|---------------------|---------|------------------------------------------------------------------------|--------|---------|
+| DASH-M-01 | Page Load          | Open    | Loads Dashboard without errors                                         | Pass   |         |
+| DASH-M-02 | Header Title       | Display | Shows "Dashboard Overview" heading                                    | Pass   |         |
+| DASH-M-03 | Subtitle Text      | Display | Displays productivity insights message                                | Pass   |         |
+| DASH-M-04 | Task Card          | Display | Shows task icon, label, and dynamic task count                        | Pass   |         |
+| DASH-M-05 | Task Card          | Click   | Redirects to `/tasks` page                                            | Pass   |         |
+| DASH-M-06 | Note Card          | Display | Shows note icon, label, and dynamic note count                        | Pass   |         |
+| DASH-M-07 | Note Card          | Click   | Redirects to `/notes` page                                            | Pass   |         |
+| DASH-M-08 | Contact Card       | Display | Shows contact icon, label, and message                                | Pass   |         |
+| DASH-M-09 | Contact Card       | Click   | Redirects to `/contact` page                                          | Pass   |         |
+| DASH-M-10 | Create Task Button | Click   | Redirects to `/tasks/create` page                                     | Pass   |         |
+| DASH-M-11 | Add Note Button    | Click   | Redirects to `/notes/create` page                                     | Pass   |         |
+| DASH-M-12 | API Task Count     | Load    | Accurately fetches and displays the number of tasks from the API      | Pass   |         |
+| DASH-M-13 | API Note Count     | Load    | Accurately fetches and displays the number of notes from the API      | Pass   |         |
+| DASH-M-14 | Responsiveness     | Resize  | Cards and layout adjust properly for mobile and desktop               | Pass   | Verified via Chrome DevTools |
+| DASH-M-15 | Accessibility      | Tab     | All cards and buttons are accessible via keyboard tab navigation      | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>Sign In Form</summary>
+
+<br>
+
+| ID        | Feature               | Action     | Expected Outcome                                                              | Result | Comment |
+|-----------|-----------------------|------------|-------------------------------------------------------------------------------|--------|---------|
+| SIGNIN-01 | Page Load             | Open       | Sign In page loads without console errors                                     | Pass   |         |
+| SIGNIN-02 | Username Input        | Display    | Username field is visible with correct placeholder                           | Pass   |         |
+| SIGNIN-03 | Username Input        | Typing     | Input updates state and accepts valid text                                   | Pass   |         |
+| SIGNIN-04 | Password Input        | Display    | Password field is visible with correct placeholder                           | Pass   |         |
+| SIGNIN-05 | Password Input        | Typing     | Input updates state and hides typed text                                     | Pass   |         |
+| SIGNIN-06 | Sign In Button        | Display    | Button is visible and styled correctly                                       | Pass   |         |
+| SIGNIN-07 | Form Submission       | Valid Data | Logs in user, shows success alert, then redirects to `/dashboard`            | Pass   |         |
+| SIGNIN-08 | Form Submission       | Invalid    | Shows warning alert with specific error message                              | Pass   | Tested with wrong credentials |
+| SIGNIN-09 | Error Messages        | Feedback   | Displays relevant messages (e.g. invalid user or missing fields)             | Pass   |         |
+| SIGNIN-10 | Link to Sign Up       | Click      | Redirects to `/signup` page                                                  | Pass   |         |
+| SIGNIN-11 | Accessibility         | Tab Order  | Tabbing allows keyboard-only navigation to all form fields and buttons       | Pass   |         |
+| SIGNIN-12 | Responsive Layout     | Resize     | Form resizes properly for mobile and hides image on small screens            | Pass   |         |
+| SIGNIN-13 | Image Column          | Display    | Image is hidden on small screens and visible on medium and larger devices     | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>Sign Up Form</summary>
+
+<br>
+
+| ID        | Feature               | Action     | Expected Outcome                                                              | Result | Comment |
+|-----------|-----------------------|------------|-------------------------------------------------------------------------------|--------|---------|
+| SIGNUP-01 | Page Load             | Open       | Sign Up page loads with no console errors                                    | Pass   |         |
+| SIGNUP-02 | Username Input        | Display    | Username field is visible with placeholder "Choose a username"              | Pass   |         |
+| SIGNUP-03 | Username Input        | Typing     | Updates state correctly and accepts valid input                              | Pass   |         |
+| SIGNUP-04 | Email Input           | Display    | Email field is visible with correct placeholder                              | Pass   |         |
+| SIGNUP-05 | Email Input           | Typing     | Updates state correctly and accepts valid email format                       | Pass   |         |
+| SIGNUP-06 | Password Input        | Display    | Password field is visible with correct placeholder                           | Pass   |         |
+| SIGNUP-07 | Password Input        | Typing     | Input updates state and hides text                                           | Pass   |         |
+| SIGNUP-08 | Confirm Password      | Display    | Confirmation field is visible with correct placeholder                       | Pass   |         |
+| SIGNUP-09 | Confirm Password      | Typing     | Input updates state and hides text                                           | Pass   |         |
+| SIGNUP-10 | Form Submission       | Valid Data | User is registered and redirected to `/signin`                              | Pass   |         |
+| SIGNUP-11 | Form Submission       | Invalid    | Shows error messages from backend in warning alerts                          | Pass   | Tested with unmatched passwords |
+| SIGNUP-12 | Non-field Errors      | Trigger    | Backend errors (e.g., username exists) display in alert                      | Pass   |         |
+| SIGNUP-13 | Link to Sign In       | Click      | Redirects to `/signin` page                                                  | Pass   |         |
+| SIGNUP-14 | Accessibility         | Tab Order  | Tabbing navigates through all interactive elements correctly                 | Pass   |         |
+| SIGNUP-15 | Responsive Layout     | Resize     | Form adapts to mobile and desktop view, image hidden on mobile               | Pass   |         |
+| SIGNUP-16 | Image Display         | Medium+    | Image column appears only on medium and larger screens                       | Pass   |         |
+
+</details>
+
+
+<details>
+
+<summary>Task List</summary>
+
+<br>
+
+| ID       | Feature               | Action       | Expected Outcome                                                                 | Result | Comment |
+|----------|-----------------------|--------------|----------------------------------------------------------------------------------|--------|---------|
+| TASK-01  | Page Load             | Open         | Loads the task list page with no console errors                                 | Pass   |         |
+| TASK-02  | Progress Bar          | Display      | Progress bar reflects percentage of completed tasks                             | Pass   |         |
+| TASK-03  | Create Button         | Click        | Redirects to `/tasks/create`                                                    | Pass   |         |
+| TASK-04  | Search Input          | Typing       | Filters task list as user types                                                 | Pass   |         |
+| TASK-05  | Sort Dropdown         | Click        | Opens dropdown to select sorting method (Due Date / Priority)                   | Pass   |         |
+| TASK-06  | Sort Dropdown         | Select       | Tasks are reordered accordingly                                                 | Pass   |         |
+| TASK-07  | Category Filter       | Select       | Only tasks from selected category are displayed                                 | Pass   |         |
+| TASK-08  | Today Section         | Display      | Tasks due today are grouped under "Today"                                       | Pass   |         |
+| TASK-09  | Week Section          | Display      | Tasks due this week are grouped under "This Week"                               | Pass   |         |
+| TASK-10  | Later Section         | Display      | Tasks due later are grouped under "Later"                                       | Pass   |         |
+| TASK-11  | Completed Section     | Display      | Completed tasks appear in separate section with green icon                      | Pass   |         |
+| TASK-12  | Task Card             | Display      | Displays task title, priority, due date, and interactive controls               | Pass   |         |
+| TASK-13  | Update State          | Click        | Clicking the checkbox updates the task's state                                  | Pass   |         |
+| TASK-14  | Delete Button         | Click        | Clicking trash icon deletes task (after confirmation if applicable)             | Pass   |         |
+| TASK-15  | Pagination Controls   | Click        | Navigates between pages of task cards                                           | Pass   |         |
+| TASK-16  | Empty State Message   | Condition    | "No tasks due..." appears if no tasks match selected filter/search              | Pass   |         |
+| TASK-17  | Responsive Layout     | Resize       | Layout adjusts properly for mobile and desktop screens                          | Pass   |         |
+| TASK-18  | Accessibility (Input) | Tab Order    | Inputs and buttons are accessible via keyboard tabbing                          | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>Create Task</summary>
+
+<br>
+
+| ID        | Feature             | Action     | Expected Outcome                                                                 | Result | Comment |
+|-----------|---------------------|------------|----------------------------------------------------------------------------------|--------|---------|
+| TSKC-01   | Page Load           | Open       | Create Task page loads with no console errors                                   | Pass   |         |
+| TSKC-02   | Form Fields         | Display    | Title, Description, Due Date, Priority, Category, Notes fields are visible      | Pass   |         |
+| TSKC-03   | Required Fields     | Submit     | Displays alert if title or due date are missing                                 | Pass   | Basic HTML5 validation |
+| TSKC-04   | Priority Dropdown   | Select     | Priority field updates based on selection (low, medium, high)                   | Pass   |         |
+| TSKC-05   | Category Dropdown   | Select     | Category field updates when changed                                             | Pass   |         |
+| TSKC-06   | Date Picker         | Input      | User can select a due date starting from today                                  | Pass   | Uses `min` date logic |
+| TSKC-07   | Notes Input         | Type       | Notes field accepts multiline input                                             | Pass   |         |
+| TSKC-08   | Form Submission     | Submit     | Form sends POST request and redirects to `/tasks` on success                    | Pass   |         |
+| TSKC-09   | Form Submission     | Fail       | If API fails, user sees an alert                                                | Pass   | "Failed to create task" |
+| TSKC-10   | Cancel Navigation   | N/A        | Not applicable — handled by browser navigation buttons                          | N/A    |         |
+| TSKC-11   | Accessibility       | Keyboard   | All form fields can be accessed via keyboard tabbing                            | Pass   |         |
+| TSKC-12   | Responsive Layout   | Resize     | Layout adjusts properly on mobile and desktop                                   | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>Task Detail</summary>
+
+<br>
+
+| ID         | Feature             | Action     | Expected Outcome                                                  | Result | Comment |
+|------------|---------------------|------------|-------------------------------------------------------------------|--------|---------|
+| TSKD-01    | Page Load           | Open       | Task details load without error for valid task ID                | Pass   |         |
+| TSKD-02    | Page Load           | Open       | Displays error message if task not found                         | Pass   | Triggered manually |
+| TSKD-03    | Title Display       | View       | Task title appears as form input (read-only)                     | Pass   |         |
+| TSKD-04    | Read-only Fields    | View       | All fields are disabled (non-editable)                           | Pass   |         |
+| TSKD-05    | Back Button         | Click      | Navigates to `/tasks`                                            | Pass   |         |
+| TSKD-06    | Edit Button         | Click      | Redirects to `/tasks/:id/edit`                                   | Pass   |         |
+| TSKD-07    | Delete Button       | Click      | Prompts user, deletes task on confirm, and redirects to `/tasks` | Pass   |         |
+| TSKD-08    | Delete Button       | Cancel     | Prompts user and cancels deletion                                | Pass   |         |
+| TSKD-09    | Notes Section       | View       | Shows “No notes for this task” if none exist                     | Pass   |         |
+| TSKD-10    | Notes Section       | View       | Displays list of associated notes with correct content           | Pass   |         |
+| TSKD-11    | Responsiveness      | Resize     | Layout adapts for mobile and desktop                             | Pass   |         |
+| TSKD-12    | Accessibility       | Keyboard   | Buttons and links can be accessed via tab navigation             | Pass   |         |
+
+</details>
+
+<details>
+
+<summary>Task Edit</summary>
+
+<br>
+
+| ID         | Feature               | Action           | Expected Outcome                                                  | Result | Comment                     |
+|------------|-----------------------|------------------|-------------------------------------------------------------------|--------|-----------------------------|
+| TSKE-01    | Page Load             | Open             | Task data and notes load correctly                                | Pass   |                             |
+| TSKE-02    | Form Fields           | View             | All task fields pre-filled with current values                    | Pass   |                             |
+| TSKE-03    | Form Fields           | Edit             | User can update title, description, due date, priority, etc.     | Pass   |                             |
+| TSKE-04    | Submit Button         | Click            | Submits updated task and redirects to `/tasks`                   | Pass   |                             |
+| TSKE-05    | Add Note Textarea     | View             | Textarea for new notes is visible                                 | Pass   |                             |
+| TSKE-06    | Add Note              | Enter text + Click| Adds new note to the list                                         | Pass   |                             |
+| TSKE-07    | Note List             | View             | Displays list of current notes                                    | Pass   |                             |
+| TSKE-08    | Edit Note             | Click edit       | Opens editable textarea for note                                  | Pass   |                             |
+| TSKE-09    | Save Edited Note      | Click save       | Saves changes and updates note in the list                        | Pass   |                             |
+| TSKE-10    | Cancel Note Edit      | Click cancel     | Closes edit without saving                                        | Pass   |                             |
+| TSKE-11    | Delete Note           | Click delete + Confirm | Deletes note and removes from list                              | Pass   |                             |
+| TSKE-12    | Delete Note           | Click delete + Cancel | Cancels deletion, note remains                                   | Pass   |                             |
+| TSKE-13    | Error Handling        | API Failure      | Shows alert on failure to fetch, add, save or delete             | Pass   | Manual API failure simulated |
+| TSKE-14    | Responsiveness        | Resize           | Layout adapts correctly for different screen sizes               | Pass   |                             |
+| TSKE-15    | Accessibility         | Keyboard         | All interactive elements accessible via keyboard navigation      | Pass   |                             |
+
+</details>
+
+<details>
+
+<summary>TaskForm Component</summary>
+
+<br>
+
+| ID         | Feature           | Action            | Expected Outcome                                                   | Result | Comment                        |
+|------------|-------------------|-------------------|--------------------------------------------------------------------|--------|------------------------------|
+| TF-01      | Title Input       | Display           | Title input field visible and editable (unless read-only)         | Pass   |                              |
+| TF-02      | Title Input       | Required          | Form cannot be submitted without a title                          | Pass   |                              |
+| TF-03      | Description       | Display           | Description textarea visible and editable (unless read-only)      | Pass   |                              |
+| TF-04      | Due Date Input    | Display           | Due date field visible with minimum date set to today             | Pass   |                              |
+| TF-05      | Due Date Input    | Required          | Form cannot be submitted without a due date                       | Pass   |                              |
+| TF-06      | Priority Dropdown | Display           | Dropdown with Low, Medium, High options                            | Pass   |                              |
+| TF-07      | Priority Dropdown | Select Option     | Selecting an option updates form state                            | Pass   |                              |
+| TF-08      | State Dropdown    | Display           | Dropdown with Open, In Progress, Done, Overdue options            | Pass   |                              |
+| TF-09      | State Dropdown    | Select Option     | Selecting an option updates form state                            | Pass   |                              |
+| TF-10      | Category Dropdown | Display           | Dropdown with Work, Personal, Fitness, Finance, Misc options      | Pass   |                              |
+| TF-11      | Category Dropdown | Select Option     | Selecting an option updates form state                            | Pass   |                              |
+| TF-12      | Submit Button     | Display           | Submit button visible when not read-only                          | Pass   |                              |
+| TF-13      | Submit Button     | Click             | Calls form submit handler and disables when read-only            | Pass   |                              |
+| TF-14      | Read-Only Mode    | Render            | All inputs disabled or read-only, submit button hidden           | Pass   |                              |
+| TF-15      | Accessibility     | Keyboard Navigation| All inputs and buttons accessible via keyboard                    | Pass   |                              |
+
+</details>
+
+<details>
+
+<summary>CompletedTaskCard Component</summary>
+
+<br>
+
+| ID           | Feature          | Action            | Expected Outcome                                                | Result | Comment                |
+| ------------ | ---------------- | ----------------- | ---------------------------------------------------------------| ------ | ---------------------- |
+| CTC-01       | Card Display     | Render            | Card displays task title with completed icon                    | Pass   |                        |
+| CTC-02       | Description      | Render            | Task description is visible                                     | Pass   |                        |
+| CTC-03       | Category Display | Render            | Displays task category with folder icon                         | Pass   |                        |
+| CTC-04       | Completed Date   | Render            | Shows completion date with calendar icon                        | Pass   |                        |
+| CTC-05       | Priority Badge   | Render            | Priority badge color corresponds to task priority              | Pass   |                        |
+| CTC-06       | Delete Button    | Display           | Delete button visible                                           | Pass   |                        |
+| CTC-07       | Delete Button    | Click             | Clicking delete calls deleteTask function with task id          | Pass   |                        |
+| CTC-08       | Accessibility    | Keyboard & Screen Reader | Buttons and icons accessible via keyboard and screen reader  | Pass   |                        |
+
+</details>
+
+<details>
+
+<summary>PaginationControls Component</summary>
+
+<br>
+
+| ID           | Feature             | Action                  | Expected Outcome                                                      | Result | Comment                |
+| ------------ | ------------------- | ----------------------- | -------------------------------------------------------------------- | ------ | ---------------------- |
+| PGC-01       | Render Buttons      | Render                  | Renders one button per page based on total and tasksPerPage          | Pass   |                        |
+| PGC-02       | Highlight Current   | Visual                  | Current page button has 'primary' variant; others 'outline-primary'  | Pass   |                        |
+| PGC-03       | Button Click        | Click                   | Clicking a page button calls setCurrentPage with correct page number | Pass   |                        |
+| PGC-04       | Conditional Render  | Render                  | Does not render if totalPages ≤ 1                                    | Pass   |                        |
+| PGC-05       | Accessibility       | Keyboard & Screen Reader| Buttons are focusable and accessible                                  | Pass   |                        |
+
+</details>
+
+<details>
+
+<summary>TaskCard Component</summary>
+
+<br>
+
+| ID        | Feature          | Action                 | Expected Outcome                                                      | Result | Comment                 |
+| --------- | ---------------- | ---------------------- | -------------------------------------------------------------------- | ------ | ----------------------- |
+| TSKC-01   | State Selector   | Display                | Shows dropdown with states: Open, In Progress, Done                  | Pass   |                         |
+| TSKC-02   | State Selector   | Change                 | Changing state calls updateState with correct params                | Pass   |                         |
+| TSKC-03   | Title Link       | Click                  | Navigates to `/tasks/{task.id}` detail page                          | Pass   |                         |
+| TSKC-04   | Description      | Display                | Shows task description text                                          | Pass   |                         |
+| TSKC-05   | Category Display | Display                | Shows task category with icon                                        | Pass   |                         |
+| TSKC-06   | Due Date Display | Display                | Shows task due date with calendar icon                               | Pass   |                         |
+| TSKC-07   | Priority Badge   | Display                | Shows colored badge according to priority                            | Pass   | Colors: red/yellow/green|
+| TSKC-08   | Edit Button      | Click                  | Navigates to `/tasks/{task.id}/edit`                                | Pass   |                         |
+| TSKC-09   | Delete Button    | Click                  | Calls deleteTask with task id                                        | Pass   |                         |
+| TSKC-10   | Styling          | Visual                 | Card has border color based on priority and style changes if done   | Pass   |                         |
+
+</details>
+
+<details>
+
+<summary>TaskCategoryFilter Component</summary>
+
+<br>
+
+| ID          | Feature          | Action                 | Expected Outcome                                                     | Result | Comment                      |
+| ----------- | ---------------- | ---------------------- | ------------------------------------------------------------------- | ------ | ---------------------------- |
+| TCF-01      | Category Buttons | Display                | Renders a button for each category                                  | Pass   |                              |
+| TCF-02      | Category Buttons | Click                  | Clicking a button sets it as the selected category                  | Pass   |                              |
+| TCF-03      | Selected Button  | Visual Highlight       | Selected category button is styled with "primary" variant          | Pass   | Others styled "outline-primary" |
+| TCF-04      | Button Text      | Display                | Category names capitalized with tag icon displayed                  | Pass   |                              |
+| TCF-05      | Button Layout    | Visual                 | Buttons wrap and are centered responsively                         | Pass   |                              |
+
+</details>
+
+<details>
+
+<summary>DeleteConfirmModal Component</summary>
+
+<br>
+
+| ID          | Feature        | Action                | Expected Outcome                                              | Result | Comment                     |
+| ----------- | -------------- | --------------------- | ------------------------------------------------------------- | ------ | --------------------------- |
+| DCM-01      | Modal Display  | Show                  | Modal appears centered with title "Confirm Delete"            | Pass   |                             |
+| DCM-02      | Modal Content  | Display               | Confirmation message shown: "Are you sure you want to delete this item?" | Pass   |                             |
+| DCM-03      | Error Message  | Display on error prop  | Error text shown in red if `error` prop is passed              | Pass   |                             |
+| DCM-04      | Cancel Button  | Click                 | Calls `onHide` callback and closes the modal                   | Pass   |                             |
+| DCM-05      | Delete Button  | Click                 | Calls `onConfirm` callback to confirm deletion                 | Pass   |                             |
+| DCM-06      | Close Button   | Click                 | Modal closes when close button in header is clicked           | Pass   |                             |
+
+</details>
+
+<details>
+
+<summary>useTaskForm Hook</summary>
+
+<br>
+
+| ID        | Feature            | Action                | Expected Outcome                                 | Result | Comment                    |
+| --------- | ------------------ | --------------------- | ------------------------------------------------ | ------ | -------------------------- |
+| UTF-01    | Initial State      | On mount              | `formData` initialized with default values      | Pass   |                            |
+| UTF-02    | handleChange       | Change input field    | Updates corresponding field in `formData`       | Pass   | Tested with text inputs     |
+| UTF-03    | handleSelect       | Select dropdown option | Updates dropdown field in `formData`             | Pass   | Tested priority, state etc. |
+| UTF-04    | handleSubmit       | Submit form           | Sends PUT request to `/api/tasks/{taskId}/` with updated data | Pass   | Successfully updates task   |
+| UTF-05    | handleSubmit       | Error during submit   | Alerts "Failed to update task"                   | Pass   | Handles API failure         |
+| UTF-06    | getMinDate         | Call                  | Returns today's date in `YYYY-MM-DD` format     | Pass   |                            |
+
+</details>
+
+<details>
+
+<summary>useTasks Hook</summary>
+
+<br>
+
+| ID        | Feature             | Action                   | Expected Outcome                                         | Result | Comment                     |
+| --------- | ------------------- | ------------------------ | -------------------------------------------------------- | ------ | --------------------------- |
+| UTK-01    | Fetch tasks         | On mount                 | Fetches tasks from API and sets `tasks` state            | Pass   | Tested on component load     |
+| UTK-02    | Fetch categories    | On mount                 | Extracts unique categories plus "all" and sets `categories` | Pass   | Categories include "all"     |
+| UTK-03    | deleteTask          | Confirm and delete task  | Removes task from API and updates local `tasks` state    | Pass   | Confirmation prompt appears  |
+| UTK-04    | updateTaskState     | Change task state        | Sends PUT request updating state, updates local `tasks`  | Pass   | State updates reflected      |
+| UTK-05    | filterAndSortTasks  | Filter by category/search| Returns filtered and sorted tasks based on parameters    | Pass   | Filters and sorts correctly  |
+| UTK-06    | groupTasks          | Group by due dates       | Groups tasks into today, this week, and later            | Pass   | Groups match expected dates  |
+| UTK-07    | Error handling      | On API errors            | Logs errors to console for fetch, delete, and update     | Pass   | Errors logged appropriately  |
+
+</details>
 
 # Bug: Favicon and Static File Path Errors on Deployment
 
