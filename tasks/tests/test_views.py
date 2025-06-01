@@ -135,3 +135,52 @@ class NoteAPITests(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data['body'], 'Test Note')
+
+class ContactAPITests(TestCase):
+    def setUp(self):
+        """Set up test data"""
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@example.com',
+            password='testpass123'
+        )
+        self.admin_user = User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='adminpass123'
+        )
+        self.client.force_authenticate(user=self.user)
+
+    def test_create_contact(self):
+        """Test creating a contact message"""
+        url = reverse('contact-create')
+        data = {
+            'subject': 'Test Subject',
+            'message': 'Test Message'
+        }
+        response = self.client.post(url, data, format='json')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Contact.objects.count(), 1)
+
+    def test_list_contact_messages_admin(self):
+        """Test listing contact messages as admin"""
+        # Create a contact message
+        Contact.objects.create(
+            user=self.user,
+            subject='Test Subject',
+            message='Test Message'
+        )
+        
+        # Switch to admin user
+        self.client.force_authenticate(user=self.admin_user)
+        url = reverse('contact-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data['results']), 1)
+
+    def test_list_contact_messages_non_admin(self):
+        """Test listing contact messages as non-admin"""
+        url = reverse('contact-list')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN) 
