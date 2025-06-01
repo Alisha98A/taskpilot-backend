@@ -48,7 +48,9 @@ class NoteSerializer(serializers.ModelSerializer):
         super().__init__(*args, **kwargs)
         request = self.context.get('request', None)
         if request and request.user.is_authenticated:
-            self.fields['task'].queryset = Task.objects.filter(owner=request.user)
+            self.fields['task'].queryset = Task.objects.filter(
+                owner=request.user
+                )
 
     def to_representation(self, instance):
         rep = super().to_representation(instance)
