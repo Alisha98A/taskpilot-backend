@@ -578,6 +578,34 @@ Now all css is passing the tests
 
 </details>
 
+<details>
+<summary>Task Delete</summary>
+
+| ID         | Feature          | Action                                  | Expected Outcome                                | Result | Comment              |
+|------------|------------------|----------------------------------------|------------------------------------------------|--------|----------------------|
+| DEL-T-01   | Delete Button    | Click the "Delete" button on a task card or detail page | A confirmation dialog/modal appears asking to confirm deletion | Pass/Fail |                      |
+| DEL-T-02   | Confirm Deletion | Click "Delete" on the confirmation modal | The task is deleted from the list/database     | Pass/Fail |                      |
+| DEL-T-03   | Cancel Deletion  | Click "Cancel" on the confirmation modal | The modal closes, and the task remains intact  | Pass/Fail |                      |
+| DEL-T-04   | Post-Deletion UI | After confirming deletion, user is redirected to the task list page | Task no longer appears in the task list         | Pass/Fail |                      |
+| DEL-T-05   | Error Handling   | Simulate network/API failure on delete request (if possible) | An error message appears notifying deletion failed | Pass/Fail |                      |
+
+</details>
+
+---
+
+### How to perform the test:
+
+1. **Navigate to the Task List page**.
+2. **Locate a task you want to delete**.
+3. **Click the "Delete" button** on the task card or open task details and click delete.
+4. **Verify that a confirmation modal/dialog appears** asking if you're sure.
+5. **Test Cancel: Click "Cancel"** and check that the modal closes and the task is still there.
+6. **Test Confirm: Click "Delete"** and verify that:
+   - The modal closes.
+   - The task is removed from the list.
+   - You are redirected back to the task list page.
+7. Optionally, test error handling by simulating an API failure (using developer tools or backend logs) and confirm an error message shows.
+
 ##### Task components
 
 <details>
