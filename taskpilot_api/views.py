@@ -5,6 +5,7 @@ from .settings import (
     JWT_AUTH_SECURE,
 )
 
+
 # dj-rest-auth logout view
 @api_view(['POST'])
 def logout_route(request):
