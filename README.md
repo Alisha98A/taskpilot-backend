@@ -101,7 +101,67 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ## Agile development methodology
 
-*(Explain how you approached the project development in sprints or iterations)*
+While TaskPilot did not follow a strict Agile framework such as fixed-length sprints or daily standups, its development was strongly inspired by Agile principles. These include a focus on adaptability, continuous iteration, prioritization based on value, and maintaining momentum even when challenges arise.
+
+###  Iterative Development Process
+
+The project was broken down into logical development phases:
+- **Planning**
+- **Implementation** (including unit and functional testing)
+- **Continuous refinement and deployment**
+
+Instead of scheduled sprints, development was guided by **epics** grouped by functionality—such as user authentication, task management, note handling, and contact form logic. Within each epic, user stories were prioritized and implemented in sequence, starting with the essential features needed to establish a working product.
+
+A **Kanban board** was used to manage and track progress, with columns for:
+- `To Do`
+- `In Progress`
+- `Bug`
+- `Done`
+
+###  Bug Tracking and Issue Management
+
+When bugs or usability issues were discovered during development or manual testing, they were logged and added to the backlog. Instead of pausing development, these issues were prioritized and scheduled for resolution in later cycles—ensuring continuous progress without getting stuck.
+
+### Continuous Feedback Loop
+
+User feedback, self-testing, and design review were all incorporated on a rolling basis. This allowed for rapid adaptation and improvements based on what worked well and what needed refinement.
+
+---
+
+###  MoSCoW Prioritization
+
+To guide feature planning and ensure focus on delivering value, the **MoSCoW method** was used to categorize tasks:
+
+####  Must Have
+Core functionalities that were non-negotiable for launch:
+- Setting up the backend and frontend environments
+- CRUD operations for tasks and notes
+- User authentication with JWT
+- Deployment pipeline setup
+- Protected routes and permissions
+
+#### Should Have
+Features that improve usability and maintainability but weren’t critical for MVP:
+- Responsive design for mobile and desktop
+- Task sorting and filtering
+- Visual dashboard overview
+- Enhanced form validation and feedback
+
+#### Could Have
+Nice-to-have additions that could be added post-launch:
+- Tagging system for tasks
+- Additional user profile customization
+- Visual calendar integration
+
+#### Won't Have (Yet)
+Ideas and enhancements intentionally deferred for future consideration:
+- Infinite scrolling on list views
+- Dark mode / theme switching
+- Real-time notifications
+
+---
+
+This hybrid Agile approach allowed the project to stay focused and flexible while ensuring meaningful progress and a fully functional end product.
 
 ---
 
@@ -109,11 +169,109 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ### Mockups
 
-*(Add links or images of your wireframes and mockups)*
+
+To help guide the early development process, low-fidelity wireframes were created for a few of the core pages. These mockups focused on layout structure, navigation, and the general flow of user interactions.
+
+#### Homepage Wireframe
+
+This wireframe outlines the welcome screen with a hero image and clear call-to-actions to guide users toward registration or login.
+
+![Wireframe Homepage](documentation/testing/readme_images/wireframe_home.png)
+
+---
+
+#### Task List Page Wireframe
+
+This mockup shows the dashboard layout with task filtering, task cards, and space for navigation and task actions.
+
+![Wireframe Task Lists page](documentation/testing/readme_images/wireframe_tasklist.png)
+
+---
+
+While I unfortunately did not create wireframes for every single page, I had a clear visual concept in mind throughout the design process. The remaining pages—such as the note views, task detail view, or profile pages—were built based on this internal vision and evolved naturally as I worked on the frontend layout and styling.
+
+This flexible, visual-first approach allowed me to iterate quickly and adapt the interface as features were implemented.
 
 ### Data models
 
-*(Describe your Django models and data schema)*
+### ERD - Entity Relationship Diagram
+
+
+![ERD](documentation/testing/readme_images/erd.png)
+
+
+This project includes three main models: `Task`, `Note`, and `Contact`, designed to support a personalized task and note management system with user authentication. All models use Django's ORM and follow best practices for data integrity, relationships, and scalability.
+
+---
+
+#### Task Model
+
+The `Task` model represents an individual task created by a user. It contains several choice fields to organize and track task state, priority, and category.
+
+- **Fields:**
+  - `title`: short title of the task
+  - `description`: detailed explanation (optional)
+  - `due_date`: deadline for the task
+  - `priority`: low, medium, or high
+  - `category`: work, personal, finance, etc.
+  - `state`: open, in progress, done, or overdue
+  - `owner`: linked to a specific user (ForeignKey)
+  - `created_at` and `updated_at`: automatic timestamps
+
+- **Behaviors:**
+  - Automatically marks tasks as `overdue` if the due date has passed and they are not marked as `done`.
+  - Orders tasks by due date.
+
+---
+
+#### Note Model
+
+Each `Note` is linked to a specific `Task` and created by a user. This allows users to attach multiple notes to tasks for additional context, ideas, or reminders.
+
+- **Fields:**
+  - `body`: content of the note
+  - `task`: associated task (ForeignKey)
+  - `user`: owner of the note (ForeignKey)
+  - `date_added` and `date_updated`: automatic timestamps
+
+- **Behaviors:**
+  - Ordered by `date_added` in descending order (most recent first).
+
+---
+
+#### Contact Model
+
+The `Contact` model allows users to send feedback or support requests through a contact form.
+
+- **Fields:**
+  - `subject`: title of the message
+  - `message`: full message body
+  - `email`: auto-filled from user account
+  - `user`: optional link to a registered user
+  - `submitted_at`: timestamp of form submission
+
+- **Behaviors:**
+  - Automatically fills the email field with the user's registered email if it's left blank.
+
+---
+
+#### Relationships & Permissions
+
+- Each `Task` and `Note` is owned by a specific authenticated user.
+- Only authenticated users can create, edit, or delete their own tasks and notes.
+- Admin-only access is enforced for viewing contact submissions.
+
+---
+
+#### Serialization & API Access
+
+- All models are exposed via Django REST Framework views and serializers.
+- Custom fields like `is_owner`, natural timestamps (`created_at`, `updated_at`), and nested notes (`TaskWithNotesSerializer`) are included for enhanced client-side logic.
+- Views use generic class-based views with permissions like `IsAuthenticated`, `IsOwnerOnly`, and `IsAdminUser` where appropriate.
+
+---
+
+This structure ensures secure, multi-user support for task management while keeping the system flexible and extendable.
 
 ---
 
@@ -121,11 +279,48 @@ TaskPilot is a personal productivity web application built with Django and React
 
 ### Colours
 
-*(Describe your color palette)*
+### Color Palette
+
+These are the main colors used in the application’s design, selected for clarity, accessibility, and visual harmony.
+
+| Color Name         | Hex Code   | Usage Description                                              |
+|--------------------|------------|----------------------------------------------------------------|
+| **Primary Blue**   | `#2142b2`  | Main brand color for headings, buttons, and accents            |
+| **Accent Blue**    | `#0d6efd`  | Bootstrap primary blue used for buttons and outlines           |
+| **Success Green**  | `#198754`  | Used for confirmation actions like “Get Started” buttons       |
+| **Text Gray**      | `#6c757d`  | Secondary text, subtitles, and muted labels                    |
+| **Dark Gray/Black**| `#242a3d`  | Strong contrast elements like button backgrounds               |
+| **Background White**| `#ffffff` | Used for cards, navbar, and overall clean layout background    |
+
+<img src="documentation/testing/readme_images/colors.png" alt="Colors" width="800" />
 
 ### Fonts
 
-*(Describe font choices and sizes)*
+The project uses system and web-safe fonts to ensure readability and performance across devices.
+
+| Font / Style         | Usage                                     |
+|----------------------|--------------------------------------------|
+| **"DM Sans" sans-serif**    | Used globally as the default typeface for clarity and simplicity |
+| **Custom heading styles**       | Applied via font size, weight, and spacing in headings and buttons |
+| **Uppercase & letter spacing** | Used in headers like `.Header` for emphasis and structure |
+
+#### Typography Examples from CSS:
+
+```css
+.welcome-card h1 {
+  font-size: 2.5rem;
+  color: #212529;
+}
+```
+
+```css
+.welcome-card .card-subtitle {
+  font-size: 1.25rem;
+  color: #6c757d;
+}
+```
+
+The app uses relative font sizing (rem, %) to ensure accessibility and scaling on different screen sizes. Font weights vary to create visual hierarchy (e.g., bold for headings, normal for body text).
 
 ---
 
@@ -742,6 +937,7 @@ Although the file attachment functionality was ultimately excluded from the fini
 - **[Web Disability Simulator](https://chrome.google.com/webstore/detail/web-disability-simulator/djcclplfjjlkcmgkhmjemebegpifnbnj)** – 
 - **[Chrome DevTools](https://developer.chrome.com/docs/devtools/)** – Used to edit pages on-the-fly and diagnose issues.
 - **[Google DevTools](https://developer.chrome.com/docs/devtools/)** – Utilized for debugging, styling, and testing the website.
+- **[DBDiagram](https://dbdiagram.io/)** – For creating Entity Relationship Diagram
 Chrome extension used to simulate how people with disabilities experience the site.
 
 ---
