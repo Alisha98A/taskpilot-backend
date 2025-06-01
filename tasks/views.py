@@ -13,11 +13,13 @@ from .serializers import (
 from taskpilot_api.permissions import IsOwnerOnly
 import logging
 
+
 # Adapted from Django REST Framework walkthrough project
 # provided by Code Institute.
 # Original example used a Profile model, adapted here for Task management
 
-logger = logging.getLogger(__name__) 
+logger = logging.getLogger(__name__)
+
 
 # ---------- Task List and Create View ----------
 class TaskListView(generics.ListCreateAPIView):
@@ -41,7 +43,8 @@ class TaskListView(generics.ListCreateAPIView):
 
     def post(self, request):
         serializer = TaskSerializer(
-            data=request.data, context={'request': request})
+            data=request.data, context={'request': request}
+        )
         if serializer.is_valid():
             serializer.save(owner=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -66,13 +69,15 @@ class TaskDetail(APIView):
 
     def get(self, request, pk):
         task = self.get_object(pk)
-        serializer = TaskWithNotesSerializer(task, context={'request': request})
+        serializer = TaskWithNotesSerializer(
+            task, context={'request': request})
         return Response(serializer.data)
 
     def put(self, request, pk):
         task = self.get_object(pk)
         serializer = TaskSerializer(
-            task, data=request.data, context={'request': request})
+            task, data=request.data, context={'request': request}
+        )
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
@@ -113,7 +118,10 @@ class NoteDetailView(generics.RetrieveUpdateDestroyAPIView):
         try:
             return Note.objects.get(pk=pk, user=self.request.user)
         except Note.DoesNotExist:
-            logger.warning(f"Note with ID {pk} not found or not owned by {self.request.user}")
+            logger.warning(
+                f"Note with ID {pk} not found or not owned by "
+                f"{self.request.user}"
+            )
             raise Http404("Note not found")
 
 
@@ -139,4 +147,6 @@ class ContactListView(generics.ListAPIView):
     permission_classes = [permissions.IsAdminUser]
 
     def get_queryset(self):
-        return Contact.objects.all().order_by('-submitted_at')
+        return Contact.objects.all().order_by(
+            '-submitted_at'
+        )
