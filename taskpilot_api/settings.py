@@ -20,13 +20,17 @@ if os.path.exists('env.py'):
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
- # SECURITY WARNING: keep the secret key used in production secret!
+# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = 'DEV' in os.environ
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'taskpilot-backend-6ee557f05c5b.herokuapp.com', 'f078-82-209-141-99.ngrok-free.app']
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'taskpilot-backend-6ee557f05c5b.herokuapp.com',
+    'f078-82-209-141-99.ngrok-free.app']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://taskpilot-backend-6ee557f05c5b.herokuapp.com',
@@ -75,7 +79,10 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 # Append environment variables if they exist and are not duplicates
-for origin in [os.environ.get('CLIENT_ORIGIN'), os.environ.get('CLIENT_ORIGIN_DEV')]:
+for origin in [
+    os.environ.get('CLIENT_ORIGIN'),
+    os.environ.get('CLIENT_ORIGIN_DEV'),
+]:
     if origin and origin not in CORS_ALLOWED_ORIGINS:
         CORS_ALLOWED_ORIGINS.append(origin)
 
@@ -127,16 +134,20 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+        'UserAttributeSimilarityValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+        'MinimumLengthValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+        'CommonPasswordValidator',
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+        'NumericPasswordValidator',
     },
 ]
 
@@ -147,16 +158,21 @@ REST_FRAMEWORK = {
         if 'DEV' in os.environ
         else 'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'DEFAULT_PAGINATION_CLASS': (
+        'rest_framework.pagination.PageNumberPagination'
+    ),
     'PAGE_SIZE': 10,
     'DATETIME_FORMAT': '%d %b %Y',
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
 }
 
 if 'DEV' not in os.environ:
     REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = [
         'rest_framework.renderers.JSONRenderer',
     ]
+
 # JWT Authentication settings
 REST_USE_JWT = True
 
@@ -166,10 +182,12 @@ JWT_AUTH_COOKIE = 'my-app-auth'
 JWT_AUTH_REFRESH_COOKIE = 'my-refresh-token'
 JWT_AUTH_SAMESITE = 'None'
 
+
 # Optional: You can define your custom user serializer for JWT
 # REST_AUTH_SERIALIZERS = {
 #    'USER_DETAILS_SERIALIZER': 'tasks.serializers.CustomUserSerializer',
-#}
+# }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -211,5 +229,5 @@ LOGIN_REDIRECT_URL = '/api/tasks/'
 
 # Additional settings for dj-rest-auth login redirect
 REST_AUTH = {
-    'LOGIN_REDIRECT_URL': '/api/tasks/',  # Ensure the same redirection applies to dj-rest-auth
+    'LOGIN_REDIRECT_URL': '/api/tasks/',
 }
